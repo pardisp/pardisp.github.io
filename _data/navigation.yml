@@ -1,0 +1,15 @@
+sidebar:
+- title: Home
+  url: /
+
+- title: About Me
+  url: /about
+
+- title: Projects
+  url: /projects
+
+- title: Publications
+  url: /publications
+
+- title: Blog
+  url: /blog
