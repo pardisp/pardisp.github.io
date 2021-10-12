@@ -23,7 +23,7 @@ Perceptron is a small unit in neural networks. It takes _n_ inputs, computes a w
 
 We are going to create a simple classifier using Perceptron that predicts the language (among C, C#, C++, D, Haskell, Java, JS, PHP, Python, and Rust) in which a program is written. For this simple example I just use the number of occurences of 22 tokens as features.
 
-You can download the test and train data from the following links: [proglang_test](https://github.com/pardisp/pardisp.github.io/blob/main/_posts/2021-10-10-Learn_ML4Code_Part1/proglang_test.csv) [proglang_train](https://github.com/pardisp/pardisp.github.io/blob/main/_posts/2021-10-10-Learn_ML4Code_Part1/proglang_train.csv)
+You can download the test and train data from the following links: [proglang_test](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-10-10-Learn_ML4Code_Part1/proglang_test.csv) [proglang_train](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-10-10-Learn_ML4Code_Part1/proglang_train.csv)
 
 The following lines of code, train a multi-class classifier and evaluate it.
 
