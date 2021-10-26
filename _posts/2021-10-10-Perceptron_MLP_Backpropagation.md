@@ -1,25 +1,15 @@
 ---
 layout: post
-title: "Let's Learn Machine Learning (Part 1)"
+title: "Perceptron, MLP, and Backpropagation"
 tags: code-understanding ml4code
 ---
 
 
 I have been working on deep models of source code for bug detection for a short while now. Sometimes, however, I am not completely sure why or exactly how something works or does not work. So, a few days ago, I decided to pick up a book and start learning from scratch. The book is called ["Hands-on Machine Learning with Scikit-Learn, Keras & Tensorflow"](https://learning.oreilly.com/library/view/hands-on-machine-learning/9781492032632/). I will refer to it as *the book* for brevity.
 
-I am going to post a series of articles explaining what I learn as I continue reading this book. I will skip topics that I find irrelevant to machine learning for code.
-After reviewing some basic concepts of deep learning, I will diverge from the book and focus more on machine learning specifically for code.
-
-
-## Part 1: Intro
 
 ### Perceptron
 Perceptron is a small unit in neural networks. It takes _n_ inputs, computes a weighted sum of them, and applies a step function or one of its variants on the weighted sum. The goal of training is to find weights that minimize the prediction error.
-```
-[-------------]		-->	output layer (A)
-  ..\/\/\/\/..      -->	fully connected (B)
-  [---------]		-->	input layer (C)
-```
 
 We are going to create a simple classifier using Perceptron that predicts the language (among C, C#, C++, D, Haskell, Java, JS, PHP, Python, and Rust) in which a program is written. For this simple example I just use the number of occurences of 22 tokens as features.
 
@@ -54,11 +44,13 @@ Mean accuracy: 0.95
 ```
 
 
-### Next Topic: Multi-layer Perceptron
+### Multi-layer Perceptron
+A multi-layer perceptron has 1) one input layer, 2) a number of hidden layers, and 3) an output layer. The building blocks in this kind if network is the Perceptron. Each layer is fully connected to the next layer. The message passes in one direction (from lower layer to upper layers) so it is conviniently called _feed forward_ network. If there are several hidden layers then it is called a _deep_ network.
 
+### Backpropagation
+After the weights of the model is set to random values, one small batch of samples are run through the network in _forward_ direction until it makes the final predictions. Then, the error is measured in reverse---or _backwards_---for each layer with the goal of finding how much each connection contributes to the error. Finally, the weights are re-adjusted based on the computed values.
+As I mentioned earlier, in the original Perceptron, a step function was used at the final step. In modern MLPs, however, this step function is replaced by other _activation_ functions such as _tanh_ and _relu_.
 
 ## References
 
-- [1] Géron, Aurélien. Hands-on machine learning with Scikit-Learn, Keras, and TensorFlow: Concepts, tools, and techniques to build intelligent systems. O'Reilly Media, 2019.
-
-- [2] 
+- Géron, Aurélien. Hands-on machine learning with Scikit-Learn, Keras, and TensorFlow: Concepts, tools, and techniques to build intelligent systems. O'Reilly Media, 2019.
