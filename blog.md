@@ -10,8 +10,8 @@ title: Blog
       <div class="entry">
         {{ post.excerpt }} <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
         <p> Tags:
-        {% assign ttags = post.tags | join:'|' | append:'|' %}
-        {{ ttags }}
+        {% assign ttags = post.tags | join:' | ' %}
+        {{ ttags }} 
         </p>
 
       </div>
