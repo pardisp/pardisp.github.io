@@ -16,7 +16,7 @@ Although typing all the notes is a thing now, I still prefer hand-written notes.
 2. [Basics of PyTorch](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-12-27-Quick_Deep_Learning_Notes/pytorch.pdf)
 
 
-3. (coming soon!) [Basics of PyTorch](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-12-27-Quick_Deep_Learning_Notes/cnns.pdf)
+3. (coming soon!) [CNNs](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-12-27-Quick_Deep_Learning_Notes/cnns.pdf)
 
 
 
