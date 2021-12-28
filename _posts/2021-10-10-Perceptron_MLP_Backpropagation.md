@@ -5,9 +5,6 @@ tags: code-understanding ml4code
 ---
 
 
-I have been working on deep models of source code for bug detection for a short while now. Sometimes, however, I am not completely sure why or exactly how something works or does not work. So, a few days ago, I decided to pick up a book and start learning from scratch. The book is called ["Hands-on Machine Learning with Scikit-Learn, Keras & Tensorflow"](https://learning.oreilly.com/library/view/hands-on-machine-learning/9781492032632/). I will refer to it as *the book* for brevity.
-
-
 ### Perceptron
 Perceptron is a small unit in neural networks. It takes _n_ inputs, computes a weighted sum of them, and applies a step function or one of its variants on the weighted sum. The goal of training is to find weights that minimize the prediction error.
 
