@@ -2,4 +2,4 @@
 layout: default
 ---
 
-I am a PhD candidate at the University of Pennsylvania advised by Professor Mayur Naik and Professor Boon Thau Loo. I recieved my Bachelor's degree in software engineering in 2017. My research interests lie at the intersection of software engineering, machine learning, and modeling programs.
+I am a PhD student at the University of Pennsylvania, advised by Professors Mayur Naik and Boon Thau Loo. I received my Bachelor's degree in software engineering in 2017. I am interested in software engineering, machine learning, and modeling programs from a practical perspective.
