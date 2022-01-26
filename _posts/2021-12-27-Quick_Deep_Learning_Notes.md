@@ -16,13 +16,14 @@ Although typing all the notes is a thing now, I still prefer hand-written notes.
 2. [Basics of PyTorch](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-12-27-Quick_Deep_Learning_Notes/pytorch.pdf)
 
 
-3. [CNNs](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-12-27-Quick_Deep_Learning_Notes/cnn.pdf)
+3. [Image Prediction using CNNs](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-12-27-Quick_Deep_Learning_Notes/cnn.pdf)
 
 
-4. (coming soon!) [RNNs](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-12-27-Quick_Deep_Learning_Notes/rnn.pdf)
+4. [Text Prediction using RNN and LSTM](https://github.com/pardisp/pardisp.github.io/blob/main/files/2021-12-27-Quick_Deep_Learning_Notes/rnn.pdf)
 
 
 References:
 - [Udacity Deep Learning Nano-degree.](https://www.udacity.com/course/deep-learning-nanodegree--nd101)
+- [https://github.com/udacity/deep-learning-v2-pytorch.](https://github.com/udacity/deep-learning-v2-pytorch)
 - [Hands-on Machine Learning with Scikit-Learn, Keras, and Tensorflow by Aurelien Geron.](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/)
 - [Deep Learning by Ian Goodfellow, Yoshua Benigo, and Aaron Courville.](https://www.deeplearningbook.org/)
