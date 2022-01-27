@@ -1,4 +1,9 @@
 pubs:
+  - title: "CodeTrek: Flexible Modeling of Code using an Extensible Relational Representation"
+    authors: "Pardis Pashakhanloo, Aaditya Naik, Yuepeng Wang, Hanjun Dai, Petros Maniatis, Mayur Naik"
+    conference: "The 10th International Conference on Learning Representations (ICLR 2020)"
+    paper-link: "#"
+
   - title: "Building Program Reasoning Tools using LLVM and Z3"
     authors: "Pardis Pashakhanloo, Elizabeth Dinella, Anthony Canino, Mayur Naik"
     conference: "Proceedings of the 47th ACM SIGPLAN Symposium on Principles of Programming Languages (POPL 2020 Tutorial)"
