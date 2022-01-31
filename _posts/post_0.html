@@ -1,0 +1,176 @@
+<details>
+<summary><large>A Fuzzing Lesson (AFL)  <small style="font-weight: lighter;"> April 13, 2020 </small></large></summary>
+<p style="font-weight: lighter;">
+Do not be misled by the title; AFL does not stand for <i>A Fuzzing Lesson</i>. It stands for <i>American Fuzzy Lop</i>: one of the cutest animals out there. You might wonder what this rabbit is doing here since this is not a biology class. In fact, the state-of-the-art fuzzer that you are going to learn about is named after this cute rabbit.
+</p>
+
+<p style="font-weight: lighter;">
+<a href="https://lcamtuf.coredump.cx/afl/">AFL</a> is a security-oriented fuzzer written in C that combines compile-time instrumentation with a genetic algorithm to discover crash-inducing inputs. In contrast to other fuzzers, AFL’s focus is practicality: low-performance overhead, very few configuration options, and handling real-world programs.
+</p>
+
+<h2> Design Goals of AFL </h2>
+<p style="font-weight: lighter;">
+We start out by discussing the design goals of AFL which make it widely usable.
+</p>
+
+<p style="font-weight: lighter;">
+1. <i>AFL is Fast.</i> AFL uses a combination of tricks that make it faster compared to other fuzzers. First, it takes advantage of low-level instrumentation which imposes negligible overhead. Second, it prioritizes mutation strategies that lead to discovering more paths. Finally, it re-evaluates the queue of generated inputs on specific intervals using a fast algorithm that selects a smaller subset of test cases that still cover every exercised tuple of the form <code>(branch_source, branch_destination)</code> so far. Every queue entry is assigned a score proportional to its execution latency and file size. Then, the candidate with the lowest score is selected for each tuple.
+</p>
+
+<p style="font-weight: lighter;">
+2. <i>AFL Focuses on Code Coverage.</i> Coverage-guided fuzzing (aka grey-box fuzzing) tries to maximize the code coverage of a program such that more and more code branches are exercised. AFL instrumentation captures branch coverage and hit counts. It maintains an array <code>shared_mem</code> which is a 64 KB region passed to the instrumented binary. It keeps the information regarding the branch source and branch destination for each branch as tuples. So, it distinguishes between the following
+execution paths and tries to discover new paths in each iteration. For example, it can distinguish between these execution paths:</p>
+
+<pre>
+(1) A --> B --> C --> D
+(2) A --> B --> D --> C
+</pre>
+
+<p style="font-weight: lighter;">since the recorded tuples are different:</p>
+<pre>
+(1) (A,B) (B,C) (C,D)
+(2) (A,B) (B,D) (D,C)
+</pre>
+
+<p style="font-weight: lighter;">
+3. <i>AFL is Easy to Use.</i>
+AFL is designed to be highly practical. Compared to other fuzzers, AFL requires virtually no configuration and fine-tuning. You can  jump to the end of this article for a quick guide describing how to run AFL. Thereafter, you will be set to start using AFL to hunt bugs in programs!
+</p>
+
+
+<p style="font-weight: lighter;">
+4. <i>AFL Can be Chained to Other Tools.</i>
+Although AFL can be used without additional options, one can use additional tools to enhance the effectiveness of AFL and find bugs that might go unnoticed when using the vanilla fuzzer. For instance, <a href="https://en.wikipedia.org/wiki/AddressSanitizer">AddressSanitizer</a> can be added as a compiler option to enable detecting invalid memory accesses.
+</p>
+
+<p style="font-weight: lighter;">
+5. <i>AFL Can Minimize Generated Inputs.</i>
+AFL provides a tool, <code>afl-tmin</code> and <code>afl-cmin</code>, for test case minimization. It takes an input file and tries to trim as much data as possible while producing the same crashing state or instrumentation output. In other words, it minimizes the input without altering the execution path. This is especially useful when reporting or investigating a crash.
+</p>
+
+<h2>Kinds of Input Mutations</h2>
+
+<p style="font-weight: lighter;">
+AFL is based on a set of mutation strategies that are shown to utilize CPU efficiently and generate interesting test cases. Here are some of <a href="https://lcamtuf.blogspot.com/2014/08/binary-fuzzing-strategies-what-works.html">the main mutation strategies</a> for generating new inputs that make AFL sophisticated:
+</p>
+
+
+<p style="font-weight: lighter;">
+1. Bit Flips: This simple strategy involves sequential, ordered flips for 1-4 bits. The observed results demonstrate 10 to 70 new additional paths per million inputs generated.
+</p>
+
+<pre>
+<div>               <kiv>
+AFL Rocks!   ==>    AFL Rhcks!
+</div>              3/div>
+</pre>
+
+<p style="font-weight: lighter;">
+Although the number of the additional paths seems small, since AFL usually explores around 1000 inputs per second per core, such paths appear fairly quickly. For instance, on an 8-core machine, it takes 125 seconds to explore a million inputs. Moreover, discovering one unseen path can lead to discovering more unseen paths, as AFL uses the newly discovered paths as feedback to quickly exercise unseen branches.
+</p>
+
+<p style="font-weight: lighter;">
+2. Byte Flips: A natural extension to the previous strategy is flipping bytes. This strategy involves flipping 8-, 16-, or 32-bit wide bitflip. Nearly 30 additional paths are discovered per million generated inputs. Note that this strategy is much cheaper compared to flipping bits due to the underlying hardware support for flipping bytes. However, it limits the opportunities to find additional paths.
+</p>
+
+<pre>
+<div>               C   >
+AFL Rocks!   ==>    AFL Rhcks!
+</div>              Pv>
+</pre>
+
+<p style="font-weight: lighter;">
+3. Simple Arithmetic: For triggering more complex conditions deterministically, AFL increments or decrements constant integers by 1-35. The effectiveness of this strategy varies depending on the input format. For instance, in JPEG, it helps discover around 2 additional paths per million inputs.
+</p>
+
+<p style="font-weight: lighter;">
+4. Known Integers: Another deterministic strategy in AFL involves replacing the numbers in the input file with a hardcoded set of integer numbers that are likely to trigger edge, crashing cases. Examples of such integers include 0, -1, MAX_INT, and MIN_INT-1. This strategy leads to discovering 2-5 additional paths per one million generated inputs.
+</p>
+
+<pre>
+char *t                       ==>     char *t
+= malloc(128*sizeof(char));           = malloc(MAX_INT*sizeof(char));
+</pre>
+
+<p style="font-weight: lighter;">
+5. Stacked Tweaks: This strategy randomly stacks some (or all) of the following operations and applies them: single bit-flip and byte-flip, block duplication, block deletion, etc. The number of operations that are stacked is randomly chosen as a power-of-two between 1 and 64, and the block size for block operations is usually 1 KB.
+</p>
+
+<p style="font-weight: lighter;">
+6. Splicing: In contrast to previous strategies, this one relies on two distinct inputs. Then, they are spliced in a random location. This strategy sometimes discovers 20% additional paths.
+</p>
+
+<h2>Real Bugs Found by AFL</h2>
+<p style="font-weight: lighter;">
+AFL has been able to find <a href="http://lcamtuf.coredump.cx/afl/#bugs">many interesting bugs</a> to date, around 500 of which have been security vulnerabilities, and [have been officially reported](https://github.com/mrash/afl-cve). Here is a sampling of the kinds of bugs together with links to the corresponding vulnerabilities found by AFL:
+</p>
+
+<p style="font-weight: lighter;">
+1. Assertion violation [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9399">CVE-2016-9399</a>]<br>
+2. Buffer overflow [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8126">CVE-2015-8126</a>]<br>
+3. Integer overflow [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-6839">CVE-2017-6839</a>]<br>
+4. Null dereference [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7475">CVE-2017-7475</a>]<br>
+5. Infinite loop [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5852">CVE-2017-5852</a>]<br>
+</p>
+
+<h2>Quick Guide to Run AFL</h2>
+
+<strong>Part 1: Running the Fuzzer</strong>
+
+<p style="font-weight: lighter;">
+Follow the step-by-step instructions to install and run AFL.
+</p>
+
+<p style="font-weight: lighter;">
+1. Install AFL:
+</p>
+<pre>
+$ apt-get install -y afl
+</pre>
+
+<p style="font-weight: lighter;">
+2. Download fuzzgoat source code, extract it, and build it with afl-clang. This step will inject instrumentations into the target program.
+</p>
+<pre>
+$ git clone https://github.com/fuzzstati0n/fuzzgoat
+$ cd fuzzgoat
+$ export CC=afl-clang
+$ make -j8
+</pre>
+
+<p style="font-weight: lighter;">
+3. Next, create an input folder where the seed file will reside, and an output folder where the generated crashing inputs will go.
+</p>
+<pre>
+$ mkdir input output
+</pre>
+
+<p style="font-weight: lighter;">
+4. We are going to use a valid ELF file which is already on the system as the seed input.
+</p>
+<pre>
+$ cp /bin/ps input/
+</pre>
+
+<p style="font-weight: lighter;">
+5. Finally, run the fuzzer:
+</p>
+<pre>
+$ afl-fuzz -i input -o output -- ./fuzzgoat @@
+</pre>
+
+<p style="font-weight: lighter;">
+You will immediately see the following GUI starting in the terminal. After a few seconds, you should see some crashing inputs. You can find them under the output/crashes folder. You can find more details about the status screen in AFL’s <a href="http://lcamtuf.coredump.cx/afl/status_screen.txt">documentation</a>.
+</p>
+
+<strong>Part 2: Minimizing the Crashing Inputs</strong>
+
+<p style="font-weight: lighter;">
+Next, we are going to try out afl-tmin that performs test minimizing. This tool minimizes the test case to the bare minimum that results in the same execution path. It iterates over the actual bytes in the test case and removes smaller and smaller blocks of bytes. You can observe this tool in action using the following command.
+</p>
+
+<pre>
+$ afl-tmin -i output/crashes/[crash-file] -o test.min -- ./fuzzgoat
+</pre>
+
+</details>

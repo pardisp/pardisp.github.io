@@ -1,0 +1,64 @@
+<details>
+<summary><large>Perceptron, MLP, and Backpropagation <small style="font-weight: lighter;"> October 10, 2021</small></large></summary>
+
+
+<h2>Perceptron</h2>
+<p style="font-weight: lighter;">
+Perceptron is a small unit in neural networks. It takes <i>n</i> inputs, computes a weighted sum of them, and applies a step function or one of its variants on the weighted sum. The goal of training is to find weights that minimize the prediction error.
+</p>
+
+<p style="font-weight: lighter;">
+We are going to create a simple classifier using Perceptron that predicts the language (among C, C#, C++, D, Haskell, Java, JS, PHP, Python, and Rust) in which a program is written. For this simple example I just use the number of occurences of 22 tokens as features.
+</p>
+
+<p style="font-weight: lighter;">
+You can download the test and train data from the following links: <a href="https://github.com/pardisp/pardisp.github.io/blob/main/_files/2021-10-10-Learn_ML4Code_Part1/proglang_test.csv">proglang_test</a> <a href="https://github.com/pardisp/pardisp.github.io/blob/main/_files/2021-10-10-Learn_ML4Code_Part1/proglang_train.csv">proglang_train</a>
+</p>
+
+<p style="font-weight: lighter;">
+The following lines of code, train a multi-class classifier and evaluate it.
+</p>
+
+<pre>
+import pandas
+from sklearn.linear_model import Perceptron
+
+data_test = pandas.read_csv('proglang_test.csv')
+data_train = pandas.read_csv('proglang_train.csv')
+
+# feature columns
+X_test = data_test.iloc[:, 0:-2]
+X_train = data_train.iloc[:, 0:-2]
+
+# labels
+y_test = data_test.iloc[:, -2] 
+y_train = data_train.iloc[:, -2]
+
+# train the classifier
+classifier = Perceptron()
+classifier.fit(X_train, y_train)
+
+# evaluate the classifier
+print('Mean accuracy:', classifier.score(X_test, y_test))
+</pre>
+
+<pre>
+Mean accuracy: 0.95
+</pre>
+
+
+<h3>Multi-layer Perceptron</h3>
+<p style="font-weight: lighter;">
+A multi-layer perceptron has 1) one input layer, 2) a number of hidden layers, and 3) an output layer. The building blocks in this kind if network is the Perceptron. Each layer is fully connected to the next layer. The message passes in one direction (from lower layer to upper layers) so it is conviniently called <i>feed forward</i> network. If there are several hidden layers then it is called a <i>deep</i> network.
+</p>
+
+<h3>Backpropagation</h3>
+<p style="font-weight: lighter;">
+After the weights of the model is set to random values, one small batch of samples are run through the network in <i>forward</i> direction until it makes the final predictions. Then, the error is measured in reverse---or <i>backwards</i>---for each layer with the goal of finding how much each connection contributes to the error. Finally, the weights are re-adjusted based on the computed values.
+As I mentioned earlier, in the original Perceptron, a step function was used at the final step. In modern MLPs, however, this step function is replaced by other <i>activation</i> functions such as <i>tanh</i> and <i>relu</i>.
+</p>
+
+<h2>Reference</h2>
+- Géron, Aurélien. Hands-on machine learning with Scikit-Learn, Keras, and TensorFlow: Concepts, tools, and techniques to build intelligent systems. O'Reilly Media, 2019.
+
+</details>

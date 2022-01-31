@@ -1,0 +1,282 @@
+<details>
+<summary><large>Hardening C/C++ Code with Clang Sanitizers <small style="font-weight: lighter;"> May 10, 2020</small></large></summary>
+
+<p style="font-weight: lighter;">
+Many common programming errors manifest as violations of general safety properties such as memory safety (e.g. null pointer dereferencing) and concurrency safety (e.g. data races). Certain languages such as Rust aim to <i>statically</i> check such properties but impose additional burden on developers. Managed languages such as Java and C# <i>dynamically</i> check such properties and throw exceptions when they are violated.  But most languages in widespread use, notably C and C++, offer very limited checking at compile-time and run-time. Unchecked safety violations in C/C++ programs are notorious for ill effects ranging from hard-to-debug runtime crashes to security exploits.
+</p>
+
+<p style="font-weight: lighter;">
+Sanitizers are a wide-ranging solution to these problems. They bring C/C++ closer to safer languages like Java and Rust. Major C/C++ compilers such as GCC and Clang provide sanitizers. In this article, we will learn about Clang sanitizers.
+</p>
+
+<p style="font-weight: lighter;">
+Clang sanitizers are safety checkers supported by Clang. They are compiler add-ons that insert checks by instrumenting the code in order to detect common programming errors at runtime. Four of these sanitizers are widely used in practice and have been successfully applied to large applications such as Google Chrome and Mozilla Firefox. These are: Address Sanitizer, Thread Sanitizer, Undefined Behavior Sanitizer, and Memory Sanitizer. The remainder of this article provides an overview of each of these sanitizers and demonstrates how you can apply them to harden C/C++ programs.
+</p>
+
+<p style="font-weight: lighter;">
+An overview of the LLVM workflow is illustrated in the following block diagram. The Clang Sanitizer pass is located between the compiler front-end and the back-end, transforming an unsafe program to a safe one by instrumenting the program IR. This framework supports multiple frontends (e.g., C/C++ and Objective C/C++) as well as multiple backends (e.g., x86, x86_64, ARM, MIPS, etc.)
+</p>
+
+<h2>Major Clang Sanitizers</h2>
+
+<p style="font-weight: lighter;">
+<h3> 1. Address Sanitizer (ASan)</h3>
+<a href="https://clang.llvm.org/docs/AddressSanitizer.html">Address Sanitizer</a> is a fast memory bug checker with a typical slowdown of 2x. It can detect the following kinds of bugs:
+</p>
+
+<ol>
+<li>Heap buffer overflow: A buffer overflow where the buffer is allocated in the heap portion of memory.</li>
+<li>Stack buffer overflow: A condition when a program accesses a memory address on the program’s call stack outside of the intended data structure.</li>
+<li>Use after free: An attempt to access memory after it has been freed.</li>
+<li>Double/invalid free: An attempt to deallocate freed memory.</li>
+<li>Memory leaks: Failure to release memory that is no longer needed.</li>
+</ol>
+
+<h3>2. Thread Sanitizer (TSan)</h3>
+
+<p style="font-weight: lighter;">
+<a href="https://clang.llvm.org/docs/ThreadSanitizer.html">Thread Sanitizer</a> is a checker that detects data races. A data race happens when two threads access the same resource concurrently and at least one of the accesses is a write. Data races are one of the most challenging bugs to detect in concurrent systems. Thread Sanitizer incurs an average slowdown of 2x-20x and an average memory overhead of 5x-10x.
+</p>
+
+<h3>3. Undefined Behavior Sanitizer (UBSan)</h3>
+<p style="font-weight: lighter;">
+<a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">Undefined Behavior Sanitizer</a> is a fast undefined behavior detector. Some examples of undefined behavior that it catches are as follows:
+</p>
+
+<ol>
+<li>Misaligned pointer or reference</li>
+<li>Out of bounds array indexing where the array bound can be statically determined</li>
+<li>Implicit and explicit conversions between floating-points and integers</li>
+<li>Division by zero</li>
+<li>Performing pointer arithmetic which overflows</li>
+<li>Signed and unsigned integer overflow</li>
+<li>If control flow reaches an unreachable program point</li>
+</ol>
+
+
+<h3>4. Memory Sanitizer (MSan)</h3>
+<p style="font-weight: lighter;">
+<a href="https://clang.llvm.org/docs/MemorySanitizer.html">Memory Sanitizer</a> is a checker for uninitialized memory reads by tracking uninitialized bits in the memory. Uninitialized reads happen when the allocated memory is read before it is written. MSan tracks uninitialized bits. This sanitizer imposes an average slowdown of 3x, and an average memory overhead of 2x.
+</p>
+
+
+<h2>Quick Guide to Run Clang Sanitizers</h2>
+
+<h3>1. Address Sanitizer (ASan)</h3>
+<p style="font-weight: lighter;">
+Create a new file <code>asan.cc</code>, and copy the following program into it:
+</p>
+<pre>
+// asan.cc
+1: int main(int argc, char **argv) {
+2:   int *array = new int[100];
+3:   delete [] array;
+4:   return array[argc];
+5: }
+</pre>
+<p style="font-weight: lighter;">
+Next, compile and link the program with the <code>-fsanitize=address</code> flag:
+</p>
+<pre>
+$ clang++ -g -fsanitize=address asan.cc
+</pre>
+
+<p style="font-weight: lighter;">
+For better performance, add the -O1 optimization flag, and to get a nicer stack trace in the error message, add the <code>-fno-omit-frame-pointer</code> flag:
+</p>
+<pre>
+$ clang++ -O1 -g -fsanitize=address -fno-omit-frame-pointer asan.cc
+</pre>
+
+<p style="font-weight: lighter;">
+Next, simply run the compiled binary:
+</p>
+
+<pre>
+$ ./a.out
+</pre>
+
+<p style="font-weight: lighter;">
+If you follow the steps successfully, you will see the following error message printed to stderr, and the program will exit with a non-zero exit code.
+</p>
+
+<pre>
+==37==ERROR: AddressSanitizer: heap-use-after-free on address 0x614000000044 at pc 0x0000004f8d5f bp 0x7ffe692d6990 sp 0x7ffe692d6988
+READ of size 4 at 0x614000000044 thread T0
+    #0 0x4f8d5e in main /sans/asan.cc:4:10
+    #1 0x7f0500759b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #2 0x41af59 in _start (/sans/a.out+0x41af59)
+...
+
+</pre>
+<p style="font-weight: lighter;">
+In this example, the program is trying to access an array element after it has been deleted. So the sanitizer reports a heap-use-after-free error at line 4.
+</p>
+
+<h3>2. Thread Sanitizer (TSan)</h3>
+<p style="font-weight: lighter;">
+Create a new file <code>tsan.c</code>, and copy the following program into it:
+</p>
+
+<pre>
+// tsan.c
+ 1: #include &lt;pthread.h&gt;
+ 2: int Global;
+ 3: void *Thread1(void *x) {
+ 4:   Global = 42;
+ 5:   return x;
+ 6: }
+ 7: int main() {
+ 8:   pthread_t t;
+ 9:   pthread_create(&t, NULL, Thread1, NULL);
+10:   Global = 43;
+11:   pthread_join(t, NULL);
+12:   return Global;
+13: }
+</pre>
+
+<p style="font-weight: lighter;">
+Next, compile and link the program with the <code>-fsanitize=thread</code> flag:
+</p>
+<pre>
+$ clang -fsanitize=thread -g -O1 tsan.c
+</pre>
+
+<p style="font-weight: lighter;">
+Next, simply run the compiled binary. You might need to run it multiple times to encounter a data race. Later in the course, you will see how a test input generation tool such as AFL or LibFuzzer can automate this repetitive task.
+</p>
+<pre>
+$ ./a.out
+</pre>
+
+<p style="font-weight: lighter;">
+When the bug is encountered, the following error message will be printed to stderr:
+</p>
+<pre>
+WARNING: ThreadSanitizer: data race (pid=145)
+  Write of size 4 at 0x000001108278 by main thread:
+    #0 main /sans/tsan.c:10:10 (a.out+0x4ac64e)
+
+  Previous write of size 4 at 0x000001108278 by thread T1:
+    #0 Thread1 /sans/tsan.c:4:10 (a.out+0x4ac607)
+
+  Location is global 'Global' of size 4 at 0x000001108278 (a.out+0x000001108278)
+
+  Thread T1 (tid=147, finished) created by main thread at:
+    #0 pthread_create &lt;null&gt; (a.out+0x422fe5)
+    #1 main /sans/tsan.c:9:3 (a.out+0x4ac644)
+
+SUMMARY: ThreadSanitizer: data race /sans/tsan.c:10:10 in main
+==================
+ThreadSanitizer: reported 1 warnings
+</pre>
+
+<h3>3. Undefined Behavior Sanitizer (UBSan)</h3>
+<p style="font-weight: lighter;">
+Create a new file <code>ubsan.c</code>, and copy the following program into it:
+</p>
+<pre>
+// ubsan.c
+ 1: #include &lt;inttypes.h&gt;
+ 2: #include &lt;stdint.h&gt;
+ 3: #include &lt;stdio.h&gt;
+ 4: #include &lt;string.h&gt;
+ 5: 
+ 6: int32_t convert(const uint8_t *restrict p) {
+ 7:   uint32_t x = (256*p[1] + 256*256*p[2] + 256*256*256*p[3]);
+ 8:   if (x > INT32_MAX) return (x - INT32_MAX) - 1;
+ 9:   else return (((int32_t)x + (int32_t)-INT32_MAX) - 1);
+10: }
+11: 
+12: int main() {
+13:   uint32_t value;
+14:   uint8_t buf[sizeof(uint32_t)];
+15:   while (scanf("%" SCNx32, &value) == 1) {
+16:     memcpy(buf, &value, sizeof(buf));
+17:     printf("%08" PRIx32 "\n", convert(buf));
+18:   }
+19:   return 0;
+20: }
+</pre>
+
+<p style="font-weight: lighter;">
+Next, compile and link the program with the <code>-fsanitize=undefined</code> flag:
+</p>
+<pre>
+$ clang -g -fsanitize=undefined ubsan.c
+</pre>
+
+<p style="font-weight: lighter;">
+Then, run the compiled binary with the following input:
+</p>
+<pre>
+$ ./a.out
+80000001
+</pre>
+
+<p style="font-weight: lighter;">
+You should be able to witness the following runtime error:
+</p>
+<pre>
+ubsan.c:7:54: runtime error: signed integer overflow: 16777216 * 128 cannot be represented in type 'int'
+</pre>
+
+<p style="font-weight: lighter;">
+After reading <code>80000001</code>, UBSan detects an error and prints an error message. It points out the signed integer overflow in <code>256 * 256 * 256 * p[3]. p[3]</code> is an unsigned char which will convert to a signed integer between 0 to 255. Then, it is multiplied by <code>256 * 256 * 256</code>. In some cases, such as the case where the input is <code>80000001</code>, a signed integer overflow occurs which is considered an undefined behavior in C/C++.
+</p>
+
+<h3>4. Memory Sanitizer (MSan)</h3>
+<p style="font-weight: lighter;">
+Create a new file <code>msan.cc</code>, and copy the following program into it:
+</p>
+
+<pre>
+// msan.cc
+1: #include &lt;stdio.h&gt;
+2: 
+3: int main(int argc, char** argv) {
+4:   int* a = new int[10];
+5:   a[5] = 0;
+6:   if (a[argc])
+7:     printf("xx\n");
+8:   return 0;
+9: }
+</pre>
+
+<p style="font-weight: lighter;">
+Next, compile and link the program with the <code>-fsanitize=memory</code> flag:
+</p>
+<pre>
+$ clang++ -g -fsanitize=memory msan.cc
+</pre>
+
+<p style="font-weight: lighter;">
+For better performance, add the <code>-O2</code> optimization flag, and to get a stack trace in the error message, add the <code>-fno-omit-frame-pointer</code> flag:
+</p>
+<pre>
+$ clang++ -g -O2 -fno-omit-frame-pointer -fsanitize=memory msan.cc
+</pre>
+
+<p style="font-weight: lighter;">
+Next, simply run the compiled binary:
+</p>
+<pre>
+$ ./a.out
+</pre>
+
+<p style="font-weight: lighter;">
+When the bug is encountered, the following error message will be printed to stderr:
+</p>
+<pre>
+==52==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x495d7e in main /cis547vm/msan.cc:6:8
+    #1 0x7f1d69194b96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
+    #2 0x41b7e9 in _start (/cis547vm/j+0x41b7e9)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cis547vm/msan.cc:6:8 in main
+</pre>
+<p style="font-weight: lighter;">
+In this example, an uninitialized value is accessed in line 6, column 8.
+</p>
+
+</details>
