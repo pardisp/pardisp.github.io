@@ -208,8 +208,7 @@ a:visited {
           <a class="page-link" href="#highlights">Publications</a>
           <a class="page-link" href="#projects">Projects</a>
           <a class="page-link" href="#experience">Experience</a>
-          <span class="page-link" style="color:gray" href="#">Blog</span>
-          <!--<a class="page-link" href="blog.html">Blog</a>-->
+          <a class="page-link" href="blog.html">Blog</a>
         </div>
       </nav>
   </div>
@@ -242,7 +241,7 @@ Exciting news!
 -->
 
 <p>
-As part of my most recent submission to <a href="_papers/codetrek.pdf"><span class="caps">ICLR'22</span></a>, I proposed a deep learning technique called <a href="_papers/codetrek.pdf"><span class="caps">CodeTrek</span></a> that leverages relational databases to robustly represent code. The result is not only a uniform representation of any program information, but also the ability to use SQL-style queries to enrich that information. To better benefit from this rich structural and semantic information, I also developed a guided graph-walk mechanism to extract relevant context. CodeTrek's code understanding models are robust and better at predicting real-world bugs.
+As part of my most recent work (<a href="_papers/codetrek.pdf"><span class="caps">ICLR'22</span></a>), I proposed a deep learning technique called <a href="_papers/codetrek.pdf"><span class="caps">CodeTrek</span></a> that leverages relational databases to robustly represent code. The result is not only a uniform representation of any program information, but also the ability to use SQL-style queries to enrich that information. To better benefit from this rich structural and semantic information, I also developed a guided graph-walk mechanism to extract relevant context. CodeTrek's code understanding models are robust and better at predicting real-world bugs.
 </p>
 
 
@@ -250,18 +249,18 @@ As part of my most recent submission to <a href="_papers/codetrek.pdf"><span cla
 
 <ul>
 <li>
-On a statement level, I developed <a href="https://chisel.cis.upenn.edu/"><span class="caps">Chisel</span></a>, a framework for reducing programs using user-defined high-level specifications. Chisel relies on reinforcement learning to accelerate large-scale program reduction. I am glad to announce that <a href="https://www.grammatech.com/about">GrammaTech, Inc.</a> is extending this work to target any programming language.
+For program-level debloating, I developed <a href="https://chisel.cis.upenn.edu/"><span class="caps">Chisel</span></a>, a framework for reducing programs using user-defined high-level specifications. Chisel relies on reinforcement learning to accelerate large-scale program reduction. 
+Currently, this research is being transitioned from a prototype to a full-fledged product by <a href="https://www.grammatech.com/about">GrammaTech</a>.
 </li>
 
-
 <li>
-In order to scale-up software debloating, I created a package-oriented framework called <a href="_papers/pacman"><span class="caps">PacMan</span></a>, which efficiently removes dependent packages while maintaining software functionality, preventing zero-day attacks. VLC Media Player alone can perform the same function with 45% fewer packages than those that are installed by Debian Package Manager. The situation is even more dire in Firefox. PacMan enables adaptive and secure management of dependent packages, as well as mitigation of newly discovered security vulnerabilities without compromising the application's functionality.
+In order to scale-up software debloating, I created a package-oriented framework called <a href="_papers/pacman"><span class="caps">PacMan</span></a>, which efficiently removes dependent packages while maintaining software functionality, preventing zero-day attacks. For instance, VLC Media Player alone can perform the same function with 45% fewer packages than those that are installed by Debian Package Manager. The situation is even more dire in the Firefox web browser. PacMan enables adaptive and secure management of dependent packages, as well as mitigation of newly discovered security vulnerabilities without compromising the application's functionality.
 </li>
 </ul>
 </p>
 
 <p>
-Producing better software is not just about the tools; it is also about the people who use them to develop software. It is imperative to make topics such as program reasoning more accessible to developers of all backgrounds. To this end, I assisted my advisor design the first <a href=https://www.seas.upenn.edu/~cis547/flyer.pdf>software analysis course at the University of Pennsylvania</a> . Students from all over the world have studied this course online and on-campus since 2019. Since the Fall of 2019, I have been a teaching assistant for the course. I also presented <a href="http://rightingcode.org/tutorials/popl20/index.html">a tutorial on building program reasoning tools using Z3 constraint solver and LLVM compiler infrastructure at POPL'20</a>.
+Producing better software is not just about the tools; it is also about the people who use them to develop software. It is imperative to make technologies such as program reasoning more accessible to developers of all backgrounds. To this end, I assisted in designing the first <a href=https://www.seas.upenn.edu/~cis547/flyer.pdf>software analysis course at the University of Pennsylvania</a>. Students from all over the world have studied this course online and on-campus since 2019. Since the Fall of 2019, I have been a teaching assistant for the course. I also presented <a href="http://rightingcode.org/tutorials/popl20/index.html">a tutorial on building program reasoning tools using Z3 constraint solver and LLVM compiler infrastructure at POPL'20</a>.
 </p>
 
 
@@ -327,9 +326,11 @@ Producing better software is not just about the tools; it is also about the peop
         <br>
         <a href="_papers/codetrek.pdf">Paper</a> . <a href="https://github.com/ppashakhanloo/CodeTrek">Repository</a>
 
+        <details><summary>Abstract</summary>
         <p class="publication-abstract">
             Designing a suitable representation for code-reasoning tasks is challenging in aspects such as the kinds of program information to model, how to combine them, and how much context to consider. We propose CodeTrek, a deep learning approach that addresses these challenges by representing codebases as databases that conform to rich relational schemas. The relational representation not only allows CodeTrek to uniformly represent diverse kinds of program information, but also to leverage program-analysis queries to derive new semantic relations, which can be readily incorporated without further architectural engineering. CodeTrek embeds this relational representation using a set of walks that can traverse different relations in an unconstrained fashion, and incorporates all relevant attributes along the way. We evaluate CodeTrek on diverse and challenging Python tasks. It outperforms state-of-the-art neural models by 2-19% points.
         </p>
+      </details>
     </div>
 </div>
 
@@ -355,9 +356,11 @@ Producing better software is not just about the tools; it is also about the peop
 				<a href="_papers/pacman.pdf">Paper</a> . <a href="https://github.com/aspire-project/pacman">Repository</a> . <a href="https://drive.google.com/drive/folders/1QvH00GqlxSLfvuKGbCcRpHh966fEeGjP">Demo</a>
         <br>
 
+        <details><summary>Abstract</summary>
         <p class="publication-abstract">
             Software in the real world is usually built from other software packages that are managed by a package manager. Package managers facilitate code reusability and programmer productivity but incur significant software bloat by installing excessive dependent packages. This “dependency hell” increases potential security issues and hampers rapid response to newly discovered vulnerabilities. We propose a package-oriented debloating framework, PacMan, for adaptive and security-aware management of an application’s dependent packages. PacMan improves upon existing debloating techniques by providing a configurable fallback mechanism via post-deployment policies. It also elides the need to completely specify the application’s usage scenarios and does not require runtime support. PacMan enables rapid mitigation of newly discovered vulnerabilities with minimal impact on the application's functionality. We evaluate PacMan on 10 popular and diverse Linux applications comprising 575K-39M SLOC each. Compared to a state-of-the-art approach, piecewise debloating, PacMan debloats 66% of the packages per application on average, reducing the attack surface by removing 46% of CVEs and 69% (versus 66%) of gadgets, with significantly less runtime overhead and without the need to install a custom loader.
         </p>
+      </details>
     </div>
 </div>
 
@@ -380,9 +383,11 @@ Producing better software is not just about the tools; it is also about the peop
         <a href="_papers/hashtray.pdf">Paper</a>
         <br>
         
+        <details><summary>Abstract</summary>
         <p class="publication-abstract">
             Untrusted network clients can undergo a classification process before they are allowed to use more of a service's resources. Services typically rely on a table to remember the clients' classification. But as the number of clients increases so does the amount of state required to keep track of this classification over time. In this paper we explore the trade-off between data-structure accuracy and network size when needing to remember client state. We present Hashtray--a hash table library that consists of a generic API and instantiations of various kinds of tables-and a system to evaluate and compare different data structures. We evaluate Hashtray in the context of Denial-of-Service mitigation using both a modelled network of 10^6 machines, and a testbed experiment with over 200 hosts connecting to a version of Apache modified to use Hashtray. The system is open-sourced to enable others to extend or build on this work.
         </p>
+      </details>
     </div>
 </div>
 
@@ -408,9 +413,11 @@ Producing better software is not just about the tools; it is also about the peop
         <a href="_papers/trace-based.pdf">Paper</a> . <a href="_papers/trace-based-poster.pdf">Poster</a> . <a href="https://github.com/dedos/flowdar">Repository</a>
         <br>
 
+        <details><summary>Abstract</summary>
         <p class="publication-abstract">
             Analysing software and networks can be done using established tools, such as debuggers and packet analysers. However, using established tools to examine network software is difficult and impractical because of the sheer detail the tools present and the performance overheads they typically impose. This makes it difficult to precisely diagnose performance anomalies in network software to identify their causes (is it a DoS attack or a bug?) and determine what needs to be fixed. We present Flowdar: a practical tool for analysing software traces to produce intuitive summaries of network software behaviour by abstracting unimportant details and demultiplexing traces into different sessions' subtraces. Flowdar can use existing state-of-the-art tracing tools for lower overhead during trace gathering for offline analysis. Using Flowdar we can drill down when diagnosing performance anomalies without getting overwhelmed in detail or burdening the system being observed. We show that Flowdar can be applied to existing real-world software and can digest complex behaviour into an intuitive visualisation.
         </p>
+      </details>
     </div>
 </div>
 
@@ -433,9 +440,11 @@ Producing better software is not just about the tools; it is also about the peop
         <a href="https://dl.acm.org/doi/pdf/10.1145/3243734.3243838">Paper</a> . <a href="_papers/chisel-slides.pdf">Slides</a> . <a href="_papers/chisel-poster.pdf">Poster</a> . <a href="https://github.com/aspire-project/chisel">Repository</a> . <a href="https://chisel.cis.upenn.edu/">Website</a>
         <br>
         
+        <details><summary>Abstract</summary>
         <p class="publication-abstract">
 					Prevalent software engineering practices such as code reuse and the "one-size-fits-all" methodology have contributed to significant and widespread increases in the size and complexity of software. The resulting software bloat has led to decreased performance and increased security vulnerabilities. We propose a system called Chisel to enable programmers to effectively customize and debloat programs. Chisel takes as input a program to be debloated and a high-level specification of its desired functionality. The output is a reduced version of the program that is correct with respect to the specification. Chisel significantly improves upon existing program reduction systems by using a novel reinforcement learning-based approach to accelerate the search for the reduced program and scale to large programs. Our evaluation on a suite of 10 widely used UNIX utility programs each comprising 13-90 KLOC of C source code demonstrates that Chisel is able to successfully remove all unwanted functionalities and reduce attack surfaces. Compared to two state-of-the-art program reducers C-Reduce and Perses, which time out on 6 programs and 2 programs espectively in 12 hours, Chisel runs up to 7.1x and 3.7x faster and finishes on all programs.
         </p>
+      </details>
     </div>
 </div>
 
@@ -460,9 +469,11 @@ Producing better software is not just about the tools; it is also about the peop
         <a href="https://dl.acm.org/doi/pdf/10.1145/3273045.3273046">Paper</a>
         <br>
         
+        <details><summary>Abstract</summary>
         <p class="publication-abstract">
             "Breaking up" software into a dataflow network of tasks can improve availability and performance by exploiting the flexibility of the resulting graph, more granular resource use, hardware concurrency and modern interconnects. Decomposing legacy systems in this manner is difficult and ad-hoc, however, leading to issues such as weaker consistency and potential data races. Thus it is difficult to build on battle-tested legacy systems. We propose a paradigm and supporting tools for developers to recognize task-level modularity opportunities in software. We use the Apache web server as an example of legacy software to test our ideas. This is a stepping stone towards realizing a vision where automated decision-support tools assist in the decomposition of systems to improve the reuse of components, meet performance targets or exploit the latest hardware devices and topologies.
         </p>
+      </details>
     </div>
 </div>
 
@@ -532,18 +543,18 @@ Producing better software is not just about the tools; it is also about the peop
 
 <p><strong>Research Intern</strong> @ Microsoft Research, Redmond (June 2019 - August 2019)<br/>
 Supervisor: David Tarditi<br>
-To improve the static checking of bounds declarations, I extended the <a href="https://github.com/microsoft/checkedc-clang">CheckedC compiler</a>.
+I extended the <a href="https://github.com/microsoft/checkedc-clang">CheckedC compiler</a> by implementing a static analysis to check bounds declarations in annotated C programs.
 </p>
 
 <p><strong>Research Intern</strong> @ Microsoft Research, Redmond (June 2020 - August 2020)<br>
 Supervisor: Suman Nath and Shuvendu Lahiri<br>
-My work involved decreasing false positives in concurrency bug detection as part of the <a href="https://www.microsoft.com/en-us/research/project/torch/">Torch project</a>.
+I investigated false positives in concurrency bug detection as a part of <a href="https://www.microsoft.com/en-us/research/project/torch/">Torch project</a>.
 </p>
 
 
 <p><strong>Course Development Assistant</strong> @ University of Pennsylvania (October 2019 - May 2020)<br>
 Instructor: Mayur Naik<br>
-The Software Analysis course (CIS 547) presents students with powerful techniques and tools for analyzing modern software--with a particular focus on the tools used in the software industry.
+The <a href="https://www.seas.upenn.edu/~cis547/flyer.pdf">Software Analysis course (CIS 547)</a> teaches powerful techniques and tools for analyzing modern software--with an emphesis on the tools used in the software industry.
 </p>
 
 
@@ -579,7 +590,7 @@ Statistics.
 <div class="experience">
 
 <p>
-Ph.D. in Computer Science @ University of Pennsylvania (present. advisors: Mayur Naik, Boon Thau Loo)<br>
+Ph.D. in Computer Science @ University of Pennsylvania (advisors: Mayur Naik, Boon Thau Loo)<br>
 B.Sc. in Software Engineering @ Sharif University of Technology (2017)
 </p>
 

@@ -1,130 +1,130 @@
 <details>
 <summary><large>Deep Learning for Code: a Collection of Papers <small style="font-weight: lighter;"> December, 2021</small></large></summary>
-
-<p style="font-weight: lighter;">
+<br>
+<p style="font-weight: 200">
 In this post, I try to list every ML/DL paper that target code understanding, code representation, and bug finding. Despite my efforts to compile an exhaustive list, there are definitely ones that I have missed. Please email me if you find a paper that is missing. I will keep this post up-to-date as I continue my studies.
 </p>
 
-<p style="font-weight: lighter;">
+<p style="font-weight: 200">
 Every top-level category consists of the papers that were published in a specific year. Under some of the paper descriptions, I have added a few keywords about the ideas and tasks.
 </p>
 
 <h2>2021</h2>
 
 <ol>
-<li> <strong>Language-agnostic representation learning of source code from structure and context</strong><br>
+<li> <strong style="font-weight:500">Language-agnostic representation learning of source code from structure and context</strong><br>
 Zugner, Daniel and Kirschstein, Tobias and Catasta, Michele and Leskovec, Jure and Gunnemann, Stephan<br>
 arXiv preprint arXiv:2103.11318<br>
 ICLR<br>
 <pre>{model: , tasks: , representation: , highlights: }</pre></li>
 
-<li> <strong>Evaluating large language models trained on code</strong><br>
+<li> <strong style="font-weight:500">Evaluating large language models trained on code</strong><br>
 Chen, Mark and Tworek, Jerry and Jun, Heewoo and Yuan, Qiming and Ponde, Henrique and Kaplan, Jared and Edwards, Harri and Burda, Yura and Joseph, Nicholas and Brockman, Greg and others<br>
 arXiv preprint arXiv:2107.03374</li>
 
-<li> <strong>More with less: Exploring how to use deep learning effectively through semi-supervised learning for automatic bug detection in student code.</strong><br>
+<li> <strong style="font-weight:500">More with less: Exploring how to use deep learning effectively through semi-supervised learning for automatic bug detection in student code.</strong><br>
 Shi, Yang and Mao, Ye and Barnes, Tiffany and Chi, Min and Price, Thomas W<br>
 In Proceedings of the 14th International Conference on Educational Data Mining (EDM)</li>
 
-<li> <strong>Fast and memory-efficient neural code completion</strong><br>
+<li> <strong style="font-weight:500">Fast and memory-efficient neural code completion</strong><br>
 Svyatkovskiy, Alexey and Lee, Sebastian and Hadjitofi, Anna and Riechert, Maik and Franco, Juliana Vicente and Allamanis, Miltiadis<br>
 2021 IEEE/ACM 18th International Conference on Mining Software Repositories (MSR)<br>
 <pre>{model: , tasks: code completion, representation: embeds subtokens, highlights: }</pre></li>
 
-<li> <strong>CCMC: Code Completion with a Memory Mechanism and a Copy Mechanism</strong><br>
+<li> <strong style="font-weight:500">CCMC: Code Completion with a Memory Mechanism and a Copy Mechanism</strong><br>
 Yang, Hao and Kuang, Li<br>
 Evaluation and Assessment in Software Engineering<br>
 <pre>{model: transformer-XL, tasks: , representation: sequence of AST nodes in in-order DFS fashion, highlights: long-range dependencies but consumes a lot of memory and compute resources}</pre></li>
 
-<li> <strong>Studying the usage of text-to-text transfer transformer to support code-related tasks</strong><br>
+<li> <strong style="font-weight:500">Studying the usage of text-to-text transfer transformer to support code-related tasks</strong><br>
 Mastropaolo, Antonio and Scalabrino, Simone and Cooper, Nathan and Palacio, David Nader and Poshyvanyk, Denys and Oliveto, Rocco and Bavota, Gabriele<br>
 2021 IEEE/ACM 43rd International Conference on Software Engineering (ICSE)<br></li>
 
-<li> <strong>InferCode: Self-Supervised Learning of Code Representations by Predicting Subtrees</strong><br>
+<li> <strong style="font-weight:500">InferCode: Self-Supervised Learning of Code Representations by Predicting Subtrees</strong><br>
 Bui, Nghi DQ and Yu, Yijun and Jiang, Lingxiao<br>
 2021 IEEE/ACM 43rd International Conference on Software Engineering (ICSE)<br>
 <pre>{model: Tree-based CNN, tasks: , representation: subtrees of an AST--traverses AST and for specific nodes such as stmts extracts subtree rooted at the visited node then makes a vocab of subtrees-->so the model's job would be to predict subtrees given an AST, highlights: unsupervised so helps with scarcity of labeled data, pretraining}</pre></li>
 
-<li> <strong>PSIMiner: A Tool for Mining Rich Abstract Syntax Trees from Code</strong><br>
+<li> <strong style="font-weight:500">PSIMiner: A Tool for Mining Rich Abstract Syntax Trees from Code</strong><br>
 Spirin, Egor and Bogomolov, Egor and Kovalenko, Vladimir and Bryksin, Timofey<br>
 arXiv preprint arXiv:2103.12778<br></li>
 
-<li> <strong>A Survey on Software Defect Prediction Using Deep Learning</strong><br>
+<li> <strong style="font-weight:500">A Survey on Software Defect Prediction Using Deep Learning</strong><br>
 Akimova, Elena N and Bersenev, Alexander Yu and Deikov, Artem A and Kobylkin, Konstantin S and Konygin, Anton V and Mezentsev, Ilya P and Misilov, Vladimir E<br>
 Multidisciplinary Digital Publishing Institute</li>
 
-<li> <strong>A large-scale benchmark for few-shot program induction and synthesis</strong><br>
+<li> <strong style="font-weight:500">A large-scale benchmark for few-shot program induction and synthesis</strong><br>
 Alet, Ferran and Lopez-Contreras, Javier and Koppel, James and Nye, Maxwell and Solar-Lezama, Armando and Lozano-Perez, Tomas and Kaelbling, Leslie and Tenenbaum, Joshua<br>
 International Conference on Machine Learning</li>
 
-<li> <strong>On the Effectiveness of Deep Vulnerability Detectors to Simple Stupid Bug Detection</strong><br>
+<li> <strong style="font-weight:500">On the Effectiveness of Deep Vulnerability Detectors to Simple Stupid Bug Detection</strong><br>
 Hua, Jiayi and Wang, Haoyu<br>
 2021 IEEE/ACM 18th International Conference on Mining Software Repositories (MSR)</li>
 
-<li> <strong>BERT2Code: Can Pretrained Language Models be Leveraged for Code Search?</strong><br>
+<li> <strong style="font-weight:500">BERT2Code: Can Pretrained Language Models be Leveraged for Code Search?</strong><br>
 Ishtiaq, Abdullah Al and Hasan, Masum and Haque, Md and Anjum, Mahim and Mehrab, Kazi Sajeed and Muttaqueen, Tanveer and Hasan, Tahmid and Iqbal, Anindya and Shahriyar, Rifat<br>
 arXiv preprint arXiv:2104.08017<br>
 <pre>{model: code2vec/codebert to embed source code and a simple NN with 2 hidden layers to embed NL query, tasks: , representation: , highlights: learns a mapping between NL embeddings and code embeddings}</pre></li>
 
-<li> <strong>On the generalizability of Neural Program Models with respect to semantic-preserving program transformations</strong><br>
+<li> <strong style="font-weight:500">On the generalizability of Neural Program Models with respect to semantic-preserving program transformations</strong><br>
 Rabin, Md Rafiqul Islam and Bui, Nghi DQ and Wang, Ke and Yu, Yijun and Jiang, Lingxiao and Alipour, Mohammad Amin<br>
 Information and Software Technology<br>
 <pre>{model: , tasks: , representation: , highlights: robustness study}</pre></li>
 
-<li> <strong>Do Transformers Really Perform Bad for Graph Representation?</strong><br>
+<li> <strong style="font-weight:500">Do Transformers Really Perform Bad for Graph Representation?</strong><br>
 Ying, Chengxuan and Cai, Tianle and Luo, Shengjie and Zheng, Shuxin and Ke, Guolin and He, Di and Shen, Yanming and Liu, Tie-Yan<br>
 arXiv preprint arXiv:2106.05234<br>
 <pre>{model: transformer for graphs, tasks: , representation: , highlights: they call it Graphormer}</pre></li>
 
-<li> <strong>TFix: Learning to Fix Coding Errors with a Text-to-Text Transformer</strong><br>
+<li> <strong style="font-weight:500">TFix: Learning to Fix Coding Errors with a Text-to-Text Transformer</strong><br>
 Berabi, Berkay and He, Jingxuan and Raychev, Veselin and Vechev, Martin<br>
 International Conference on Machine Learning (PMLR)<br>
 <pre>{model: transformer, tasks: fixing code errors, representation: sequence of tokens, features: }</pre></li>
 
-<li> <strong>Generating Adversarial Computer Programs using Optimized Obfuscations</strong><br>
+<li> <strong style="font-weight:500">Generating Adversarial Computer Programs using Optimized Obfuscations</strong><br>
 Srikant, Shashank and Liu, Sijia and Mitrovska, Tamara and Chang, Shiyu and Fan, Quanfu and Zhang, Gaoyuan and O'Reilly, Una-May<br>
 arXiv preprint arXiv:2103.11882<br>
 <pre>{model: , tasks: , representation: , highlights: focuses on adversarial robustness}</pre></li>
 
-<li> <strong>Self-Supervised Bug Detection and Repair</strong><br>
+<li> <strong style="font-weight:500">Self-Supervised Bug Detection and Repair</strong><br>
 Allamanis, Miltiadis and Jackson-Flux, Henry and Brockschmidt, Marc<br>
 arXiv preprint arXiv:2105.12787<br>
 <pre>{model: GNN, tasks: , representation: AST augmented with control and dataflow edges, features: defines the graph as entities and relations, works better than CuBERT and GREAT on real bugs, self-supervised.}</pre></li>
 
-<li> <strong>How could Neural Networks understand Programs?</strong><br>
+<li> <strong style="font-weight:500">How could Neural Networks understand Programs?</strong><br>
 Peng, Dinglan and Zheng, Shuxin and Li, Yatao and Ke, Guolin and He, Di and Liu, Tie-Yan<br>
 arXiv preprint arXiv:2105.04297<br>
 <pre>{model: transformer, tasks: , representation: control flow of LLVM IR, highlights: }</pre></li>
 
-<li> <strong>Code prediction by feeding trees to transformers</strong><br>
+<li> <strong style="font-weight:500">Code prediction by feeding trees to transformers</strong><br>
 Kim, Seohyun and Zhao, Jinman and Tian, Yuchi and Chandra, Satish<br>
 2021 IEEE/ACM 43rd International Conference on Software Engineering (ICSE)<br>
 <pre>{model: transformer, tasks: , representation: 1) token sequence or 2) AST node sequence in pre-order fashion or 3) root-to-leaf paths, highlights: makes the transformer aware of the syntactic structure of code i.e. improves self attention block similar to GREAT}</pre></li>
 
-<li> <strong>CLSEBERT: Contrastive Learning for Syntax Enhanced Code Pre-Trained Model</strong><br>
+<li> <strong style="font-weight:500">CLSEBERT: Contrastive Learning for Syntax Enhanced Code Pre-Trained Model</strong><br>
 Wang, Xin and Wang, Yasheng and Zhou, Pingyi and Xiao, Meng and Wang, Yadao and Li, Li and Liu, Xiao and Wu, Hao and Liu, Jin and Jiang, Xi<br>
 arXiv preprint arXiv:2108.04556<br>
 <pre>{model: , tasks: , representation: AST as sequence, highlights: pretraining, noise invariant code representation using contrastive learning by introducing noise into input sequence at training time, focus on robustness}</pre></li>
 
-<li> <strong>CoTexT: Multi-task Learning with Code-Text Transformer</strong><br>
+<li> <strong style="font-weight:500">CoTexT: Multi-task Learning with Code-Text Transformer</strong><br>
 Phan, Long and Tran, Hieu and Le, Daniel and Nguyen, Hieu and Anibal, James and Peltekian, Alec and Ye, Yanfang<br>
 arXiv preprint arXiv:2105.08645<br>
 <pre>{model: transformer, tasks: , representation: sequence of tokens, highlights: focuses on NL-PL tasks, pretraining}</pre></li>
 
-<li> <strong>A Mocktail of Source Code Representations</strong><br>
+<li> <strong style="font-weight:500">A Mocktail of Source Code Representations</strong><br>
 Vagavolu, Dheeraj and Swarna, Karthik Chandra and Chimalakonda, Sridhar<br>
 arXiv preprint arXiv:2106.10918<br>
 <pre>{model: , tasks: , representation: AST+CFG+PDG, highlights: an extension of code2vec}</pre></li>
 
-<li> <strong>Program Synthesis with Large Language Models</strong><br>
+<li> <strong style="font-weight:500">Program Synthesis with Large Language Models</strong><br>
 Austin, Jacob and Odena, Augustus and Nye, Maxwell and Bosma, Maarten and Michalewski, Henryk and Dohan, David and Jiang, Ellen and Cai, Carrie and Terry, Michael and Le, Quoc and Sutton, Charles<br>
 arXiv preprint arXiv:2108.07732</li>
 
-<li> <strong>Automatic Code Generation using Pre-Trained Language Models</strong><br>
+<li> <strong style="font-weight:500">Automatic Code Generation using Pre-Trained Language Models</strong><br>
 Ottens, Lizi and Perez, Luis and Viswanathan, Sudharshan<br>
 arXiv preprint arXiv:2102.10535</li>
 
-<li> <strong>SySeVR: A framework for using deep learning to detect software vulnerabilities</strong><br>
+<li> <strong style="font-weight:500">SySeVR: A framework for using deep learning to detect software vulnerabilities</strong><br>
 Li, Zhen and Zou, Deqing and Xu, Shouhuai and Jin, Hai and Zhu, Yawei and Chen, Zhaoxuan<br>
 IEEE Transactions on Dependable and Secure Computing</li>
 </ol>
@@ -132,135 +132,135 @@ IEEE Transactions on Dependable and Secure Computing</li>
 
 <h2>2020</h2>
 <ol>
-<li> <strong>Structural language models of code</strong><br>
+<li> <strong style="font-weight:500">Structural language models of code</strong><br>
 Alon, Uri and Sadaka, Roy and Levy, Omer and Yahav, Eran<br>
 International Conference on Machine Learning<br>
 <pre>{model: , tasks: code generation, representation: paths from the root and leaves in AST, features: copy mechanism}</pre></li>
 
-<li> <strong>DL-Droid: Deep learning based android malware detection using real devices</strong><br>
+<li> <strong style="font-weight:500">DL-Droid: Deep learning based android malware detection using real devices</strong><br>
 Alzaylaee, Mohammed K and Yerima, Suleiman Y and Sezer, Sakir<br>
 Computers & Security, Elsevier<br>
 <pre>{model: , tasks: malware detection, representation: , features: hand-engineered and heuristic-based}</pre></li>
 
-<li> <strong>DRAST--A Deep Learning and AST Based Approach for Bug Localization</strong><br>
+<li> <strong style="font-weight:500">DRAST--A Deep Learning and AST Based Approach for Bug Localization</strong><br>
 Sangle, Shubham and Muvva, Sandeep and Chimalakonda, Sridhar and Ponnalagu, Karthikeyan and Venkoparao, Vijendran Gopalan<br>
 arXiv preprint arXiv:2011.03449<br>
 <pre>{model: , tasks: , representation: AST, highlights: }</pre></li>
 
-<li> <strong>Backdoors in neural models of source code</strong><br>
+<li> <strong style="font-weight:500">Backdoors in neural models of source code</strong><br>
 Ramakrishnan, Goutham and Albarghouthi, Aws<br>
 arXiv preprint arXiv:2006.06841<br>
 <pre>{model: , tasks: , representation: , highlights: adversarial robustness}</pre></li>
 
-<li> <strong>Adversarial examples for models of code</strong><br>
+<li> <strong style="font-weight:500">Adversarial examples for models of code</strong><br>
 Yefet, Noam and Alon, Uri and Yahav, Eran<br>
 Proceedings of the ACM on Programming Languages (OOPSLA)<br>
 <pre>{model: , tasks: , representation: , highlights: adversarial robustness}</pre></li>
 
-<li> <strong>Semantic robustness of models of source code</strong><br>
+<li> <strong style="font-weight:500">Semantic robustness of models of source code</strong><br>
 Ramakrishnan, Goutham and Henkel, Jordan and Wang, Zi and Albarghouthi, Aws and Jha, Somesh and Reps, Thomas<br>
 arXiv preprint arXiv:2002.03043<br>
 <pre>{model: , tasks: , representation: , highlights: focuses on semantic robustness and training with semantic-preserving code transformations}</pre></li>
 
-<li> <strong>Software vulnerability detection using deep neural networks: A survey</strong><br>
+<li> <strong style="font-weight:500">Software vulnerability detection using deep neural networks: A survey</strong><br>
 Lin, Guanjun and Wen, Sheng and Han, Qing-Long and Zhang, Jun and Xiang, Yang<br>
 Proceedings of the IEEE</li>
 
-<li> <strong>Approaches for Representing Software as Graphs for Machine Learning Applications</strong><br>
+<li> <strong style="font-weight:500">Approaches for Representing Software as Graphs for Machine Learning Applications</strong><br>
 Romanov, Vitaly and Ivanov, Vladimir and Succi, Giancarlo<br>
 2020 International Computer Symposium (ICS)</li>
 
 
-<li> <strong>TranS^3: A transformer-based framework for unifying code summarization and code search</strong><br>
+<li> <strong style="font-weight:500">TranS^3: A transformer-based framework for unifying code summarization and code search</strong><br>
 Wang, Wenhua and Zhang, Yuqun and Zeng, Zhengran and Xu, Guandong<br>
 arXiv preprint arXiv:2003.03238<br>
 <pre>{model: transformer, tasks: code search and summarization, representation: AST, highlights: unifying framework for both code searching and summarization}</pre></li>
 
-<li> <strong>Multi-task learning based pre-trained language model for code completion</strong><br>
+<li> <strong style="font-weight:500">Multi-task learning based pre-trained language model for code completion</strong><br>
 Liu, Fang and Li, Ge and Zhao, Yunfei and Jin, Zhi<br>
 Proceedings of the 35th IEEE/ACM International Conference on Automated Software Engineering</strong><br>
 <pre>{model: transformer, tasks: code completion, representation: , highlights: pretraining}</pre></li>
 
-<li> <strong>Language Modelling for Source Code with Transformer-XL</strong><br>
+<li> <strong style="font-weight:500">Language Modelling for Source Code with Transformer-XL</strong><br>
 Dowdell, Thomas and Zhang, Hongyu<br>
 arXiv preprint arXiv:2007.15813<br>
 <pre>{model: transformer-XL, tasks: , representation: , highlights: language modeling for source code, increase context size}</pre></li>
 
-<li> <strong>Big code != big vocabulary: Open-vocabulary models for source code</strong><br>
+<li> <strong style="font-weight:500">Big code != big vocabulary: Open-vocabulary models for source code</strong><br>
 Karampatsis, Rafael-Michael and Babii, Hlib and Robbes, Romain and Sutton, Charles and Janes, Andrea<br>
 2020 IEEE/ACM 42nd International Conference on Software Engineering (ICSE)</li>
 
-<li> <strong>Scelmo: Source code embeddings from language models<br>
+<li> <strong style="font-weight:500">Scelmo: Source code embeddings from language models<br>
 Karampatsis, Rafael-Michael and Sutton, Charles<br>
 arXiv preprint arXiv:2004.13214</strong>
 
-<li> <strong>DeepVS: an efficient and generic approach for source code modelling usage</strong><br>
+<li> <strong style="font-weight:500">DeepVS: an efficient and generic approach for source code modelling usage</strong><br>
 Hussain, Yasir and Huang, Zhiqiu and Zhou, Yu and Wang, Senzhang<br>
 Electronics Letters, Wiley Online Library</li>
 
-<li> <strong>Dlfix: Context-based code transformation learning for automated program repair</strong><br>
+<li> <strong style="font-weight:500">Dlfix: Context-based code transformation learning for automated program repair</strong><br>
 Li, Yi and Wang, Shaohua and Nguyen, Tien N<br>
 Proceedings of the ACM/IEEE 42nd International Conference on Software Engineering<br>
 <pre>{model: tree-based LSTM, tasks: , representation: AST, highlights: learning transformations to fix code instead of seq2seq}</pre></li>
 
-<li> <strong>Compiler-based graph representations for deep learning models of code</strong><br>
+<li> <strong style="font-weight:500">Compiler-based graph representations for deep learning models of code</strong><br>
 Brauckmann, Alexander and Goens, Andr{<br>'es and Ertel, Sebastian and Castrillon, Jeronimo<br>
 Proceedings of the 29th International Conference on Compiler Construction<br>
 <pre>{model: GNN, tasks: , representation: AST and control flow edges, highlights: }</pre></li>
 
-<li> <strong>Deep learning for source code modeling and generation: Models, applications, and challenges</strong><br>
+<li> <strong style="font-weight:500">Deep learning for source code modeling and generation: Models, applications, and challenges</strong><br>
 Le, Triet HM and Chen, Hao and Babar, Muhammad Ali<br>
 ACM Computing Surveys (CSUR)</li>
 
-<li> <strong>Duplicate bug report detection and classification system based on deep learning technique</strong><br>
+<li> <strong style="font-weight:500">Duplicate bug report detection and classification system based on deep learning technique</strong><br>
 Kukkar, Ashima and Mohana, Rajni and Kumar, Yugal and Nayyar, Anand and Bilal, Muhammad and Kwak, Kyung-Sup<br>
 IEEE Access</li>
 
-<li> <strong>A self-attentional neural architecture for code completion with multi-task learning</strong><br>
+<li> <strong style="font-weight:500">A self-attentional neural architecture for code completion with multi-task learning</strong><br>
 Liu, Fang and Li, Ge and Wei, Bolin and Xia, Xin and Fu, Zhiyi and Jin, Zhi<br>
 Proceedings of the 28th International Conference on Program Comprehension<br>
 <pre>{model: , tasks: code completion, representation: AST nodes as an ordered sequences to root, highlights: }</pre></li>
 
-<li> <strong>A transformer-based approach for source code summarization</strong><br>
+<li> <strong style="font-weight:500">A transformer-based approach for source code summarization</strong><br>
 Ahmad, Wasi Uddin and Chakraborty, Saikat and Ray, Baishakhi and Chang, Kai-Wei<br>
 arXiv preprint arXiv:2005.00653<br>
 <pre>{model: transformer, tasks: code summarization, representation: pairwise relationships between tokens based on AST, features: long-range}</pre></li>
 
-<li> <strong>Software defect prediction via transformer</strong><br>
+<li> <strong style="font-weight:500">Software defect prediction via transformer</strong><br>
 Zhang, Qihang and Wu, Bin<br>
 2020 IEEE 4th Information Technology, Networking, Electronic and Automation Control Conference (ITNEC)<br>
 <pre>{model: transformer, tasks: , representation: AST, highlights: }</pre></li>
 
-<li> <strong>Adversarial robustness for code</strong><br>
+<li> <strong style="font-weight:500">Adversarial robustness for code</strong><br>
 Bielik, Pavol and Vechev, Martin<br>
 International Conference on Machine Learning (PMLR)<br>
 <pre>{model: , tasks: , representation: , highlights: focus on adversarial robustness of code}</pre></li>
 
-<li> <strong>Modular tree network for source code representation learning</strong><br>
+<li> <strong style="font-weight:500">Modular tree network for source code representation learning</strong><br>
 Wang, Wenhan and Li, Ge and Shen, Sijie and Xia, Xin and Jin, Zhi<br>
 ACM Transactions on Software Engineering and Methodology (TOSEM)<br>
 <pre>{model: tree-LSTM, tasks: , representation: AST, highlights: it is a modular tree network extracted from AST}</pre></li>
 
-<li> <strong>IntelliCode Compose: Code generation using transformer</strong><br>
+<li> <strong style="font-weight:500">IntelliCode Compose: Code generation using transformer</strong><br>
 Svyatkovskiy, Alexey and Deng, Shao Kun and Fu, Shengyu and Sundaresan, Neel<br>
 Proceedings of the 28th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering<br>
 <pre>{model: transformer, tasks: code generation, representation: , highlights: they call the model GPT-C}</pre></li>
 
-<li> <strong>Automated vulnerability detection in source code using minimum intermediate representation learning</strong><br>
+<li> <strong style="font-weight:500">Automated vulnerability detection in source code using minimum intermediate representation learning</strong><br>
 Li, Xin and Wang, Lu and Xin, Yang and Yang, Yixian and Chen, Yuling<br>
 Applied Sciences, Multidisciplinary Digital Publishing Institute</li>
 
-<li> <strong>Hoppity: Learning graph transformations to detect and fix bugs in programs</strong><br>
+<li> <strong style="font-weight:500">Hoppity: Learning graph transformations to detect and fix bugs in programs</strong><br>
 Dinella, Elizabeth and Dai, Hanjun and Li, Ziyang and Naik, Mayur and Song, Le and Wang, Ke<br>
 International Conference on Learning Representations (ICLR)<br>
 <pre>{model: GNN, tasks: fixing bugs, representation: AST with subtoken cache, highlights: }</pre></li>
 
-<li> <strong>CodeBERT: A pre-trained model for programming and natural languages</strong><br>
+<li> <strong style="font-weight:500">CodeBERT: A pre-trained model for programming and natural languages</strong><br>
 Feng, Zhangyin and Guo, Daya and Tang, Duyu and Duan, Nan and Feng, Xiaocheng and Gong, Ming and Shou, Linjun and Qin, Bing and Liu, Ting and Jiang, Daxin and others<br>
 arXiv preprint arXiv:2002.08155<br>
 <pre>{model: transformer, tasks: code search, representation: , highlights: bimodal pretrained model for PL/NL}</pre></li>
 
-<li> <strong>GraphcodeBERT: Pre-training code representations with data flow</strong><br>
+<li> <strong style="font-weight:500">GraphcodeBERT: Pre-training code representations with data flow</strong><br>
 Guo, Daya and Ren, Shuo and Lu, Shuai and Feng, Zhangyin and Tang, Duyu and Liu, Shujie and Zhou, Long and Duan, Nan and Svyatkovskiy, Alexey and Fu, Shengyu and others<br>
 arXiv preprint arXiv:2009.08366<br>
 <pre>{model: transformer, tasks: code refinement, representation: , highlights: pretraining, similar to codebert but uses dataflow info at pretraining}</pre></li>
@@ -268,111 +268,111 @@ arXiv preprint arXiv:2009.08366<br>
 
 <h2>2019</h2>
 <ol>
-<li> <strong>Synthetic datasets for neural program synthesis</strong><br>
+<li> <strong style="font-weight:500">Synthetic datasets for neural program synthesis</strong><br>
 Shin, Richard and Kant, Neel and Gupta, Kavi and Bender, Christopher and Trabucco, Brandon and Singh, Rishabh and Song, Dawn<br>
 arXiv preprint arXiv:1912.12345<br>
 2019</li>
 
-<li> <strong>PathMiner: a library for mining of path-based representations of code</strong><br>
+<li> <strong style="font-weight:500">PathMiner: a library for mining of path-based representations of code</strong><br>
 Kovalenko, Vladimir and Bogomolov, Egor and Bryksin, Timofey and Bacchelli, Alberto<br>
 2019 IEEE/ACM 16th International Conference on Mining Software Repositories (MSR)<br>
 2019</li>
 
-<li> <strong>A hybrid deep learning image-based analysis for effective malware detection</strong><br>
+<li> <strong style="font-weight:500">A hybrid deep learning image-based analysis for effective malware detection</strong><br>
 Venkatraman, Sitalakshmi and Alazab, Mamoun and Vinayakumar, R<br>
 Journal of Information Security and Applications, Elsevier<br>
 2019</li>
 
-<li> <strong>Pre-trained language model representations for language generation</strong><br>
+<li> <strong style="font-weight:500">Pre-trained language model representations for language generation</strong><br>
 Edunov, Sergey and Baevski, Alexei and Auli, Michael<br>
 arXiv preprint arXiv:1903.09722<br>
 2019</li>
 
-<li> <strong>Multi-modal attention network learning for semantic source code retrieval</strong><br>
+<li> <strong style="font-weight:500">Multi-modal attention network learning for semantic source code retrieval</strong><br>
 Wan, Yao and Shu, Jingdong and Sui, Yulei and Xu, Guandong and Zhao, Zhou and Wu, Jian and Yu, Philip S<br>
 arXiv preprint arXiv:1909.13516<br>
 2019</li>
 
-<li> <strong>A zero-positive learning approach for diagnosing software performance regressions</strong><br>
+<li> <strong style="font-weight:500">A zero-positive learning approach for diagnosing software performance regressions</strong><br>
 Alam, Mejbah and Gottschlich, Justin and Tatbul, Nesime and Turek, Javier S and Mattson, Tim and Muzahid, Abdullah<br>
 Advances in Neural Information Processing Systems<br>
 2019</li>
 
-<li> <strong>code2vec: Learning distributed representations of code</strong><br>
+<li> <strong style="font-weight:500">code2vec: Learning distributed representations of code</strong><br>
 Alon, Uri and Zilberstein, Meital and Levy, Omer and Yahav, Eran<br>
 Proceedings of the ACM on Programming Languages<br>
 <pre>{model: , tasks: , representation: pairwise paths between AST terminal nodes, highlights: }</pre></li>
 
-<li> <strong>Deep-autocoder: Learning to complete code precisely with induced code tokens</strong><br>
+<li> <strong style="font-weight:500">Deep-autocoder: Learning to complete code precisely with induced code tokens</strong><br>
 Hu, Xing and Men, Rui and Li, Ge and Jin, Zhi<br>
 2019 IEEE 43rd Annual Computer Software and Applications Conference (COMPSAC)<br>
 <pre>{model: LSTM, tasks: , representation: AST, highlights: learn language models over code corpus}</pre></li>
 
-<li> <strong>Pythia: AI-assisted code completion system</strong><br>
+<li> <strong style="font-weight:500">Pythia: AI-assisted code completion system</strong><br>
 Svyatkovskiy, Alexey and Zhao, Ying and Fu, Shengyu and Sundaresan, Neel<br>
 Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining<br>
 <pre>{model: LSTM, tasks: code completion, representation: serialized AST, highlights: }</pre></li>
 
-<li> <strong>Maybe deep neural networks are the best choice for modeling source code</strong><br>
+<li> <strong style="font-weight:500">Maybe deep neural networks are the best choice for modeling source code</strong><br>
 Karampatsis, Rafael-Michael and Sutton, Charles<br>
 arXiv preprint arXiv:1903.05734</li>
 
-<li> <strong>Structural language models for any-code generation</strong><br>
+<li> <strong style="font-weight:500">Structural language models for any-code generation</strong><br>
 Alon, Uri and Sadaka, Roy and Levy, Omer and Yahav, Eran</li>
 
-<li> <strong>A novel neural source code representation based on abstract syntax tree</strong><br>
+<li> <strong style="font-weight:500">A novel neural source code representation based on abstract syntax tree</strong><br>
 Zhang, Jian and Wang, Xu and Zhang, Hongyu and Sun, Hailong and Wang, Kaixuan and Liu, Xudong<br>
 2019 IEEE/ACM 41st International Conference on Software Engineering (ICSE)<br>
 <pre>{model: RNN, tasks: , representation: AST split into a sequence of small stmt-level subtrees, highlights: }</pre></li>
 
-<li> <strong>IdBench: Evaluating Semantic Representations of Identifier Names in Source Code</strong><br>
+<li> <strong style="font-weight:500">IdBench: Evaluating Semantic Representations of Identifier Names in Source Code</strong><br>
 Wainakh, Yaza and Rauf, Moiz and Pradel, Michael<br>
 arXiv preprint arXiv:1910.05177</li>
 
-<li> <strong>Neural program repair by jointly learning to localize and repair</strong><br>
+<li> <strong style="font-weight:500">Neural program repair by jointly learning to localize and repair</strong><br>
 Vasic, Marko and Kanade, Aditya and Maniatis, Petros and Bieber, David and Singh, Rishabh<br>
 arXiv preprint arXiv:1904.01720</li>
 
-<li> <strong>Open vocabulary learning on source code with a graph-structured cache</strong><br>
+<li> <strong style="font-weight:500">Open vocabulary learning on source code with a graph-structured cache</strong><br>
 Cvitkovic, Milan and Singh, Badal and Anandkumar, Animashree<br>
 International Conference on Machine Learning (PMLR)<br>
 <pre>{model: GNN, tasks: , representation: augmented AST, highlights: add a graph-structural vocabulary cache to the graph--add edges from a subtoken vocab to terminal nodes}</pre></li>
 
-<li> <strong>A literature study of embeddings on source code</strong><br>
+<li> <strong style="font-weight:500">A literature study of embeddings on source code</strong><br>
 Chen, Zimin and Monperrus, Martin<br>
 arXiv preprint arXiv:1904.03061</li>
 
-<li> <strong>Devign: Effective vulnerability identification by learning comprehensive program semantics via graph neural networks</strong><br>
+<li> <strong style="font-weight:500">Devign: Effective vulnerability identification by learning comprehensive program semantics via graph neural networks</strong><br>
 Zhou, Yaqin and Liu, Shangqing and Siow, Jingkai and Du, Xiaoning and Liu, Yang<br>
 arXiv preprint arXiv:1909.03496<br>
 <pre>{model: GNN, tasks: , representation: AST, highlights: }</pre></li>
 
-<li> <strong>Global Relational Models of Source Code</strong><br>
+<li> <strong style="font-weight:500">Global Relational Models of Source Code</strong><br>
 Hellendoorn, Vincent J and Sutton, Charles and Singh, Rishabh and Maniatis, Petros and Bieber, David<br>
 International conference on learning representations<br>
 <pre>{model: transformer with attention bias, tasks: varmisuse, representation: sequence of tokens but incorporating semantically meaningful relations, highlights: longer-range dependencies compared to transformer but still limited by context-size}</pre></li>
 
-<li> <strong>Learning a static bug finder from data</strong><br>
+<li> <strong style="font-weight:500">Learning a static bug finder from data</strong><br>
 Wang, Yu and Gao, Fengjuan and Wang, Linzhang and Wang, Ke<br>
 arXiv preprint arXiv:1907.05579<br>
 <pre>{model: GNN, tasks: , representation: augmented AST, highlights: split the code graph into multiple disjoint ones, suitable for more complex bugs such as null pointer deref, less accurate when handling large programs (large = 1000 nodes)}</pre></li>
 
-<li> <strong>Deep learning for bug-localization in student programs</strong><br>
+<li> <strong style="font-weight:500">Deep learning for bug-localization in student programs</strong><br>
 Gupta, Rahul and Kanade, Aditya and Shevade, Shirish<br>
 arXiv preprint arXiv:1905.12454<br>
 <pre>{model: tree convolutional neural network, tasks: bug localization, representation: AST, highlights: }</pre></li>
 
-<li> <strong>A comprehensive study on deep learning bug characteristics</strong><br>
+<li> <strong style="font-weight:500">A comprehensive study on deep learning bug characteristics</strong><br>
 Islam, Md Johirul and Nguyen, Giang and Pan, Rangeet and Rajan, Hridesh<br>
 Proceedings of the 2019 27th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering</li>
 
 <h2>2018</h2>
-<li> <strong>Deepbugs: A learning approach to name-based bug detection</strong><br>
+<li> <strong style="font-weight:500">Deepbugs: A learning approach to name-based bug detection</strong><br>
 Pradel, Michael and Sen, Koushik<br>
 Proceedings of the ACM on Programming Languages (OOPSLA)<br>
 <pre>{model: , tasks: , representation: embed only program identifiers in a list, highlights: }</pre></li>
 
-<li> <strong>code2seq: Generating sequences from structured representations of code</strong><br>
+<li> <strong style="font-weight:500">code2seq: Generating sequences from structured representations of code</strong><br>
 Alon, Uri and Brody, Shaked and Levy, Omer and Yahav, Eran<br>
 arXiv preprint arXiv:1808.01400<br>
 <pre>{model: , tasks: code captioning, representation: all pairwise paths between terminal nodes in AST, features: }</pre></li>
@@ -381,34 +381,34 @@ arXiv preprint arXiv:1808.01400<br>
 
 <h2>2017</h2>
 <ol>
-<li> <strong>Learning to Represent Student Knowledge on Programming Exercises Using Deep Learning</strong><br>
+<li> <strong style="font-weight:500">Learning to Represent Student Knowledge on Programming Exercises Using Deep Learning</strong><br>
 Wang, Lisa and Sy, Angela and Liu, Larry and Piech, Chris<br>
 International Educational Data Mining Society</li>
 
-<li> <strong>Pallas: Semantic-aware checking for finding deep bugs in fast path</strong><br>
+<li> <strong style="font-weight:500">Pallas: Semantic-aware checking for finding deep bugs in fast path</strong><br>
 Huang, Jian and Allen-Bond, Michael and Zhang, Xuechen<br>
 Proceedings of the Twenty-Second International Conference on Architectural Support for Programming Languages and Operating Systems</li>
 
-<li> <strong>Learning to represent programs with graphs</strong><br>
+<li> <strong style="font-weight:500">Learning to represent programs with graphs</strong><br>
 Allamanis, Miltiadis and Brockschmidt, Marc and Khademi, Mahmoud<br>
 arXiv preprint arXiv:1711.00740<br>
 <pre>{model: GGNN, tasks: varmisuse, representation: AST augmented with control and dataflow, features: }</pre></li>
 
-<li> <strong>DeepFix: Fixing common C language errors by deep learning</strong><br>
+<li> <strong style="font-weight:500">DeepFix: Fixing common C language errors by deep learning</strong><br>
 Gupta, Rahul and Pal, Soham and Kanade, Aditya and Shevade, Shirish<br>
 Thirty-First AAAI Conference on Artificial Intelligence<br>
 <pre>{model: multi-layered seq2seq neural network with attention, tasks: bug finding and fixing, representation: token sequence, highlights: }</pre></li>
 
-<li> <strong>Inductive representation learning on large graphs</strong><br>
+<li> <strong style="font-weight:500">Inductive representation learning on large graphs</strong><br>
 Hamilton, William L and Ying, Rex and Leskovec, Jure<br>
 Proceedings of the 31st International Conference on Neural Information Processing Systems</li>
 
-<li> <strong>Code completion with neural attention and pointer networks</strong><br>
+<li> <strong style="font-weight:500">Code completion with neural attention and pointer networks</strong><br>
 Li, Jian and Wang, Yue and Lyu, Michael R and King, Irwin<br>
 arXiv preprint arXiv:1711.09573<br>
 <pre>{model: , tasks: , representation: flattened AST, highlights: }</pre></li>
 
-<li> <strong>Program synthesis from natural language using recurrent neural networks</strong><br>
+<li> <strong style="font-weight:500">Program synthesis from natural language using recurrent neural networks</strong><br>
 Lin, Xi Victoria and Wang, Chenglong and Pang, Deric and Vu, Kevin and Ernst, Michael D<br>
 University of Washington Department of Computer Science and Engineering, Seattle, WA, USA, Tech. Rep. UW-CSE-17-03-01<br>
 <pre>{model: RNN encoder-decoder, tasks: program synthesis from NL, representation: , highlights: generates a program template from NL sentence}</pre></li>
@@ -416,15 +416,15 @@ University of Washington Department of Computer Science and Engineering, Seattle
 
 <h2>2016</h2>
 <ol>
-<li> <strong>Program synthesis using natural language</strong><br>
+<li> <strong style="font-weight:500">Program synthesis using natural language</strong><br>
 Desai, Aditya and Gulwani, Sumit and Hingorani, Vineet and Jain, Nidhi and Karkare, Amey and Marron, Mark and Roy, Subhajit<br>
 Proceedings of the 38th International Conference on Software Engineering</li>
 
-<li> <strong>Neuro-symbolic program synthesis</strong><br>
+<li> <strong style="font-weight:500">Neuro-symbolic program synthesis</strong><br>
 Parisotto, Emilio and Mohamed, Abdel-rahman and Singh, Rishabh and Li, Lihong and Zhou, Dengyong and Kohli, Pushmeet<br>
 arXiv preprint arXiv:1611.01855</li>
 
-<li> <strong>Summarizing source code using a neural attention model</strong><br>
+<li> <strong style="font-weight:500">Summarizing source code using a neural attention model</strong><br>
 Iyer, Srinivasan and Konstas, Ioannis and Cheung, Alvin and Zettlemoyer, Luke<br>
 Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</li>
 </ol>
@@ -432,10 +432,10 @@ Proceedings of the 54th Annual Meeting of the Association for Computational Ling
 <h2>2013</h2>
 
 <ol>
-<li> <strong>Mantis: Automatic performance prediction for smartphone applications</strong><br>
+<li> <strong style="font-weight:500">Mantis: Automatic performance prediction for smartphone applications</strong><br>
 Kwon, Yongin and Lee, Sangmin and Yi, Hayoon and Kwon, Donghyun and Yang, Seungjun and Chun, Byung-Gon and Huang, Ling and Maniatis, Petros and Naik, Mayur and Paek, Yunheung<br>
 USENIX Annual Technical Conference 13</li>
 </ol>
 
-
+<hr>
 </details>
