@@ -265,7 +265,7 @@ Currently, this research is being transitioned from a prototype to a full-fledge
 </li>
 
 <li>
-In order to scale-up software debloating, I created a package-oriented framework called <a href="_papers/pacman"><span class="caps">PacMan</span></a>, which efficiently removes dependent packages while maintaining software functionality, preventing zero-day attacks. For instance, VLC Media Player alone can perform the same function with 45% fewer packages than those that are installed by Debian Package Manager. The situation is even more dire in the Firefox web browser. PacMan enables adaptive and secure management of dependent packages, as well as mitigation of newly discovered security vulnerabilities without compromising the application's functionality.
+In order to scale-up software debloating, I created a package-oriented framework called <a href="_papers/pacjam"><span class="caps">PacJam</span></a>, which efficiently removes dependent packages while maintaining software functionality, preventing zero-day attacks. For instance, VLC Media Player alone can perform the same function with 45% fewer packages than those that are installed by Debian Package Manager. The situation is even more dire in the Firefox web browser. PacJam enables adaptive and secure management of dependent packages, as well as mitigation of newly discovered security vulnerabilities without compromising the application's functionality.
 </li>
 </ul>
 </p>
@@ -296,8 +296,8 @@ Producing better software is not just about the tools; it is also about the peop
 
 	<div class="highlight">
 	    <div class="highlight-body">
-	      <div class="highlight-thumbnail"><img src="./_images/pacman.png"></div>
-	      <a href="_papers/pacman.pdf"><div class="highlight-title"><span class="caps">PacMan</span> <small>(AsiaCCS'22)</small></div></a>
+	      <div class="highlight-thumbnail"><img src="./_images/pacjam.png"></div>
+	      <a href="_papers/pacjam.pdf"><div class="highlight-title"><span class="caps">PacJam</span> <small>(AsiaCCS'22)</small></div></a>
 	      <div class="highlight-description">
 	        A package-oriented debloating framework for adaptive and security-aware management of an application’s dependent packages.
 	      </div>
@@ -346,9 +346,9 @@ Producing better software is not just about the tools; it is also about the peop
 </div>
 
 
-<div class="publication" id="pacman">
+<div class="publication" id="pacjam">
     <div class="publication-description">
-        <span class="publication-title">PacMan: Securing Dependencies Continuously via Package-Oriented Debloating</span> 
+        <span class="publication-title">PacJam: Securing Dependencies Continuously via Package-Oriented Debloating</span> 
         <br>
 
         <span class="authors">
@@ -362,14 +362,14 @@ Producing better software is not just about the tools; it is also about the peop
         </span>
         <br>
         
-				<span class="venue" style="color:#666">ACM ASIA Conference on Computer and Communications Security (AsiaCCS'22 -- conditionally accepted)</span>
+				<span class="venue" style="color:#666">ACM ASIA Conference on Computer and Communications Security (AsiaCCS'22)</span>
 				<br>
-				<a href="_papers/pacman.pdf">Paper</a> . <a href="https://github.com/aspire-project/pacman">Repository</a> . <a href="https://drive.google.com/drive/folders/1QvH00GqlxSLfvuKGbCcRpHh966fEeGjP">Demo</a>
+				<a href="_papers/pacjam.pdf">Paper</a> . <a href="https://github.com/aspire-project/pacjam">Repository</a> . <a href="https://drive.google.com/drive/folders/1QvH00GqlxSLfvuKGbCcRpHh966fEeGjP">Demo</a>
         <br>
 
         <details><summary>Abstract</summary>
         <p class="publication-abstract">
-            Software in the real world is usually built from other software packages that are managed by a package manager. Package managers facilitate code reusability and programmer productivity but incur significant software bloat by installing excessive dependent packages. This “dependency hell” increases potential security issues and hampers rapid response to newly discovered vulnerabilities. We propose a package-oriented debloating framework, PacMan, for adaptive and security-aware management of an application’s dependent packages. PacMan improves upon existing debloating techniques by providing a configurable fallback mechanism via post-deployment policies. It also elides the need to completely specify the application’s usage scenarios and does not require runtime support. PacMan enables rapid mitigation of newly discovered vulnerabilities with minimal impact on the application's functionality. We evaluate PacMan on 10 popular and diverse Linux applications comprising 575K-39M SLOC each. Compared to a state-of-the-art approach, piecewise debloating, PacMan debloats 66% of the packages per application on average, reducing the attack surface by removing 46% of CVEs and 69% (versus 66%) of gadgets, with significantly less runtime overhead and without the need to install a custom loader.
+            Software in the real world is usually built from other software packages that are managed by a package manager. Package managers facilitate code reusability and programmer productivity but incur significant software bloat by installing excessive dependent packages. This “dependency hell” increases potential security issues and hampers rapid response to newly discovered vulnerabilities. We propose a package-oriented debloating framework, PacJam, for adaptive and security-aware management of an application’s dependent packages. PacJam improves upon existing debloating techniques by providing a configurable fallback mechanism via post-deployment policies. It also elides the need to completely specify the application’s usage scenarios and does not require runtime support. PacJam enables rapid mitigation of newly discovered vulnerabilities with minimal impact on the application's functionality. We evaluate PacJam on 10 popular and diverse Linux applications comprising 575K-39M SLOC each. Compared to a state-of-the-art approach, piecewise debloating, PacJam debloats 66% of the packages per application on average, reducing the attack surface by removing 46% of CVEs and 69% (versus 66%) of gadgets, with significantly less runtime overhead and without the need to install a custom loader.
         </p>
       </details>
     </div>
@@ -512,8 +512,8 @@ Producing better software is not just about the tools; it is also about the peop
 
 	<div class="project">
 	    <div class="project-body">
-	      <div class="project-thumbnail"><img src="./_images/pacman.png"></div>
-	      <div class="project-title"><a href="https://github.com/aspire-project/pacman"><span class="caps">PacMan</span></a></div>
+	      <div class="project-thumbnail"><img src="./_images/pacjam.png"></div>
+	      <div class="project-title"><a href="https://github.com/aspire-project/pacjam"><span class="caps">PacJam</span></a></div>
 	    </div>
 	</div>
 
