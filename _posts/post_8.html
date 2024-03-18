@@ -7,7 +7,7 @@ The legal domain is filled with complex terminology, nuanced interpretations, an
 
 <h2>The Toolkit</h2>
 <ul>
-	<li><strong><a href="https://colab.research.google.com/">Google Colab</a>:<</strong> The experimentation playground for GPU resources.</li>
+	<li><strong><a href="https://colab.research.google.com/">Google Colab</a>:</strong> The experimentation playground for GPU resources.</li>
 	<li><strong><a href="https://hazyresearch.stanford.edu/legalbench/">LegalBench</a>:</strong> A curated dataset of legal questions and answers.</li>
 	<li><strong><a href="https://huggingface.co/docs/transformers/index">HuggingFace</a>:</strong> Its libraries streamline working with LLMs.</li>
 	<li><strong><a href="https://pypi.org/project/bitsandbytes/">BitsAndBytes</a>:</strong> For memory-efficient quantization.</li>
@@ -26,7 +26,7 @@ Before diving into code, let's understand the structure of <a href="https://gith
 </p>
 
 <h3>Load and Transform the Data</h3>
-<p>I do not use the LegalBench dataset in the originally provided format but instead transform it from a multi-task, multi-dataset form to a question/answering dataset where the answers could be Yes/No, multiple-choice, or open-ended. You can find the [long and ugly] transformation code <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/Data.py">here<a/>. Basically, it takes one row from the original dataset and prepares a <it>context</it>, a <it>question</it>, and <it>answer</it> depending on the task type. I decided to move the data transformation code to a separate Python file to improve code readability.</p>
+<p>I do not use the LegalBench dataset in the originally provided format but instead transform it from a multi-task, multi-dataset form to a question/answering dataset where the answers could be Yes/No, multiple-choice, or open-ended. You can find the [long and ugly] transformation code <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/Data.py">here</a>. Basically, it takes one row from the original dataset and prepares a <it>context</it>, a <it>question</it>, and <it>answer</it> depending on the task type. I decided to move the data transformation code to a separate Python file to improve code readability.</p>
 
 <p>So, in the implementation, I start by reading the provided dataset and transforming it using the data transformation that I built.</p>
 <pre><code>
@@ -243,3 +243,4 @@ As we saw in this simple exercise, fine-tuning an LLM can significantly boost it
 	<li>Legal language changes; so we will need to update the model over time.</li>
 	<li>We should be mindful of the potential biases and fairness issues in the model's output.</li>
 </ol>
+</details>

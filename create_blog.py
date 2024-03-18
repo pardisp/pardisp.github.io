@@ -11,8 +11,10 @@ for post in sorted(os.listdir('_posts'), reverse=True):
         continue
     with open('_posts/'+post, 'r') as f:
         post_content = f.read()
+        print(f"reading {post}")
 
     blog_content += post_content + '\n\n'
+    print(len(blog_content))
 
 layout = layout.replace(placeholder_text, blog_content)
 with open('blog.html', 'w') as f:
