@@ -1,6 +1,5 @@
-<details>
-<summary><large>Hardening C/C++ Code with Clang Sanitizers <small style="font-weight: lighter;"> May 10, 2020</small></large></summary>
-<br>
+<title><large>Hardening C/C++ Code with Clang Sanitizers <small style="font-weight: lighter;"> May 10, 2020</small></large></title>
+<post>
 <p style="font-weight: 200">
 Many common programming errors manifest as violations of general safety properties such as memory safety (e.g. null pointer dereferencing) and concurrency safety (e.g. data races). Certain languages such as Rust aim to <i>statically</i> check such properties but impose additional burden on developers. Managed languages such as Java and C# <i>dynamically</i> check such properties and throw exceptions when they are violated.  But most languages in widespread use, notably C and C++, offer very limited checking at compile-time and run-time. Unchecked safety violations in C/C++ programs are notorious for ill effects ranging from hard-to-debug runtime crashes to security exploits.
 </p>
@@ -282,4 +281,4 @@ In this example, an uninitialized value is accessed in line 6, column 8.
 </p>
 
 <hr>
-</details>
+</post>

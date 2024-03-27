@@ -227,24 +227,249 @@ a:visited {
 
 <div class="body">
 <h1>Random Notes</h1>
-<p><a href="blog/post_8.html"><large>Fine-Tuning a Language Model for Legal Question Answering <small style="font-weight: lighter;"> March, 2024</small></large></a></p>
 
-<p><a href="blog/post_7.html"><large>Quick Deep Learning Notes <small style="font-weight: lighter;"> January, 2022</small></large></a></p>
+<p style="font-weight: 200">
+The legal domain is filled with complex terminology, nuanced interpretations, and the need for precise answers. This makes it a perfect challenge for the power of natural language processing (NLP). However, generic language models often struggle to grasp the subtleties of legal text. To satisfy my curiosity, in this blog post, I will dive into the process of fine-tuning a large language model (LLM) specifically for the task of legal question answering. You can find <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/raw_data_sample.json">the raw dataset</a> and the <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/ExperimentingWithLegalBench.ipynb">complete notebook</a> in <a href="https://github.com/ppashakhanloo/legal-gemma">legal-gemma</a> repository.
+</p>
 
-<p><a href="blog/post_6.html"><large>Neurips 2021 ML4Code-related Papers <small style="font-weight: lighter;"> January, 2022</small></large></a></p>
+<h2>The Toolkit</h2>
+<ul>
+	<li><strong><a href="https://colab.research.google.com/">Google Colab</a>:</strong> The experimentation playground for GPU resources.</li>
+	<li><strong><a href="https://hazyresearch.stanford.edu/legalbench/">LegalBench</a>:</strong> A curated dataset of legal questions and answers.</li>
+	<li><strong><a href="https://huggingface.co/docs/transformers/index">HuggingFace</a>:</strong> Its libraries streamline working with LLMs.</li>
+	<li><strong><a href="https://pypi.org/project/bitsandbytes/">BitsAndBytes</a>:</strong> For memory-efficient quantization.</li>
+	<li><strong><a href="https://pypi.org/project/peft/">PEFT</a> and <a href="https://huggingface.co/docs/peft/en/package_reference/lora">LORA</a>:</strong> Techniques to selectively fine-tune parts of the model.</li>
+</ul>
 
-<p><a href="blog/post_5.html"><large>Deep Learning for Code: a Collection of Papers <small style="font-weight: lighter;"> December, 2021</small></large></a></p>
+<h2>The Dataset: LegalBench</h2>
+Before diving into code, let's understand the structure of <a href="https://github.com/HazyResearch/legalbench">LegalBench</a>. According to the owners of the repository, LegalBench is "a benchmark consisting of different legal reasoning tasks. Each task has an associated dataset, consisting of input-output pairs."
 
-<p><a href="blog/post_4.html"><large>Public Datasets for Code Understanding Tasks <small style="font-weight: lighter;"> December, 2021</small></large></a></p>
+<h2>Step-by-Step Guide</h2>
+<h3>Project Setup</h3>
+<p>First, head to <a href="https://colab.research.google.com/">Google Colab</a> and start a new notebook. Next, make sure you have all the following installed on the notebook:
+<pre><code>
+!pip install --upgrade pandas datasets transformers bitsandbytes peft trl huggingface_hub
+</code></pre>
+</p>
 
-<p><a href="blog/post_3.html"><large>Perceptron, MLP, and Backpropagation <small style="font-weight: lighter;"> October 10, 2021</small></large></a></p>
+<h3>Load and Transform the Data</h3>
+<p>I do not use the LegalBench dataset in the originally provided format but instead transform it from a multi-task, multi-dataset form to a question/answering dataset where the answers could be Yes/No, multiple-choice, or open-ended. You can find the [long and ugly] transformation code <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/Data.py">here</a>. Basically, it takes one row from the original dataset and prepares a <it>context</it>, a <it>question</it>, and <it>answer</it> depending on the task type. I decided to move the data transformation code to a separate Python file to improve code readability.</p>
 
-<p><a href="blog/post_2.html"><large>Hardening C/C++ Code with Clang Sanitizers <small style="font-weight: lighter;"> May 10, 2020</small></large></a></p>
+<p>So, in the implementation, I start by reading the provided dataset and transforming it using the data transformation that I built.</p>
+<pre><code>
+  from Data import transform_data
+  import pandas as pd
 
-<p><a href="blog/post_1.html"><large>The Checker Framework <small style="font-weight: lighter;"> April 21, 2020</small></large></a></p>
+  df = pd.read_json('raw_data_sample.json')
 
-<p><a href="blog/post_0.html"><large>A Fuzzing Lesson (AFL)  <small style="font-weight: lighter;"> April 13, 2020 </small></large><br></a></p>
+  data = [transform_data(row) for row in df.itertuples()]
+  indexes, contexts, questions, answers = zip(*data)
 
+  assert len(contexts) == len(questions) == len(answers) and len(contexts) > 0
+  input_texts = [{"text": f"Answer the Question based on the given Context.\nContext: {c}\nQuestion: {q}\nAnswer: {a}"} for c, q, a in zip(contexts, questions, answers)]
+</code></pre>
+
+
+<p>Next, I use scikit to split the data into two sets: train (95%), and test (5%).</p>
+<pre><code>
+  from sklearn.model_selection import train_test_split
+  from datasets import Dataset
+
+  train_texts, test_texts = train_test_split(input_texts, test_size=0.05, random_state=7)
+
+  train_dataset = Dataset.from_list(train_texts)
+  test_dataset = Dataset.from_list(test_texts)
+</code></pre>
+
+<h3>Prepare for Loading the Language Model</h3>
+<p>Then, I import the necessary libraries for fine-tuning gemma-2b model. I use huggingface for this purpose.</p>
+<pre><code>
+  import torch
+
+  from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments
+  from transformers import BitsAndBytesConfig, set_seed
+
+  from peft import LoraConfig, PeftModel, prepare_model_for_kbit_training, get_peft_model
+
+  from trl import SFTTrainer
+
+  set_seed(7)
+  model_name = "google/gemma-2b-it"
+</code></pre>
+
+<p>Since loading <code>gemma-2b</code> requires accepting particular terms and conditions, one needs to accept these terms and login into huggingface hub via an access token. These <a href="https://huggingface.co/google/gemma-2b">terms and conditions</a> can be accepted by logging into <a href=https://huggingface.co>huggingface</a>. Then, login using your access token.</p>
+<pre><code>
+  from huggingface_hub import login
+  login(token='YOUR_TOKEN')
+</code></pre>
+
+<h3>Fine-tuning the Model</h3>
+<p>The next step is loading the model and the corresponding tokenizer.</p>
+
+<h4>Fitting the LLM on my GPU!</h4>
+<p>Since fine-tuning gemma-2b required more memory than I had available (15GB), I needed to take advantage of quantization to reduce the memory usage. Basically, <code>BitsAndBytes</code> quantization uses lower-precision data types to enable loading larger models.</p>
+
+<p>My configuration loads the linear layers of the model with 4-bit integer precision.</p>
+<pre><code>
+  bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.bfloat16
+  )
+</code></pre>
+
+<h3>Loading the Model</h3>
+<p>I load the model and its corresponding tokenizer using <code>huggingface</code>. Then, I pass it to <code>prepare_model_for_kbit_training</code> so that the <code>BitsAndBytes</code> quantization that I configured earlier is applied to the loaded model.</p>
+<pre><code>
+  tokenizer = AutoTokenizer.from_pretrained(model_name, truncation=True, truncation_side = "left")
+  tokenizer.pad_token = tokenizer.eos_token
+  tokenizer.padding_value = tokenizer.eos_token_id
+  model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=bnb_config)
+  model = prepare_model_for_kbit_training(model)
+</code></pre>
+
+<p>The next configuration that I found necessary for successfully fine-tuning <code>gemma-2b</code> within my time and hardware constraint was reducing the number of trainable parameters. <a href="https://arxiv.org/abs/2106.09685">Recent work</a> has shown that even training a very small percentage of pretrained parameters can be beneficial. That is where <code>LoraConfig</code> comes in.
+LoRa technique freezes values of all the parameters in the pretrained model and introduces a pair of matrices that can be trained into each layer of the Transformer to be trained instead.</p>
+
+<pre><code>
+  peft_config = LoraConfig(
+    r=8,
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM",
+    target_modules=['q_proj', 'up_proj', 'v_proj', 'k_proj', 'o_proj', 'down_proj', 'gate_proj']
+  )
+	model = get_peft_model(model, peft_config)
+</code></pre>
+<p>Then, I set the training arguments. Due to the time constraints, I experimented with only 3 different learning rates to choose the best one, and kept the rest of the hyperparameters fixed. Since the fine-tuning data is relatively small, I decided to only do a small number of training steps.</p>
+
+<pre><code>
+  training_arguments = TrainingArguments(
+    output_dir="./results",
+    do_eval=True,
+    per_device_train_batch_size=1,
+    per_device_eval_batch_size=1,
+    gradient_accumulation_steps=4,
+    optim="paged_adamw_8bit",
+    save_steps=100,
+    logging_steps=100,
+    learning_rate=1e-5,
+    eval_steps=100,
+    num_train_epochs=1,
+    warmup_ratio=0.02,
+    lr_scheduler_type="linear",
+    load_best_model_at_end=True,
+    save_strategy="steps",
+    evaluation_strategy="steps"
+  )
+</code></pre>
+
+<p>Next, I set up the fine-tuning trainer so that it uses the <code>training_arguments</code> defined above.</p>
+<pre><code>
+  trainer = SFTTrainer(
+    model=model,
+    train_dataset=train_dataset,
+    eval_dataset=test_dataset,
+    dataset_text_field="text",
+    tokenizer=tokenizer,
+    args=training_arguments,
+    peft_config=peft_config,
+    max_seq_length=512
+  )
+</code></pre>
+
+<h3>Measuring the Preplexity before Fine-tuning</h3>
+<p>Before fine-tuning, I will measure the preplexity of the original (non-fine-tuned) model on the legal test set.
+</p>
+
+<pre><code>
+  import math
+
+  eval_results = trainer.evaluate()
+  print(f"Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+</code></pre>
+
+<pre><samp>
+  Perplexity: 67.86
+</samp></pre>
+
+<p>Let's keep the model's answers to 100 randomly chosen samples from the test set. I will use them to manually evaluate the models' responses.</p>
+<pre><code>
+  from random import choices
+
+  subset_test_dataset = list(test_dataset.select(choices(range(len(test_dataset)), k=100)))
+
+  with open('ground_truth_subset_test.txt', 'w') as f:
+    for i, entry in enumerate(subset_test_dataset):
+      f.write(str(i) + "\n")
+      f.write(entry['text'])
+      f.write('\n====================\n')
+
+  with open('original_subset_test.txt', 'w') as f:
+    for i, entry in enumerate(subset_test_dataset):
+      text = entry["text"][:entry["text"].find('\nAnswer: ')] + '\nAnswer: '
+      inputs = tokenizer(text, return_tensors="pt", add_special_tokens=True)
+      outputs = model.generate(**inputs, max_new_tokens=20, pad_token_id=tokenizer.eos_token_id)
+      result = tokenizer.decode(outputs[0], skip_special_tokens=True)
+      f.write(str(i) + "\n")
+      f.write(result)
+      f.write('\n====================\n')
+</code></pre>
+
+<h3>Fine-tuning</h3>
+<p>Now, we can finally start the fine-tuning using the configurations and hyperparameters set earlier.
+</p>
+<pre><code>
+  torch.cuda.empty_cache()
+  model.config.use_cache = False
+  trainer.train()
+  model.config.use_cache = True
+</code></pre>
+
+<h3>Save the Model</h3>
+<pre><code>
+  trainer.model.save_pretrained('legal_'+model_name)
+</code></pre>
+
+<h3>Evaluating the Preplexity of the New Model</h3>
+<p>Let's evaluate the preplexity of the fine-tuned model.</p>
+<pre><code>
+  new_eval_results = trainer.evaluate()
+  print(f"Perplexity: {math.exp(new_eval_results['eval_loss']):.2f}")
+  assert new_eval_results['eval_loss'] < eval_results['eval_loss']
+</code></pre>
+
+Output:
+<pre><samp>
+	Perplexity: 4.56
+</samp></pre>
+
+<p>As expected (and desired!), the preplexity of the fine-tuned model is lower than that of the original model.</p>
+
+<h3>Manual Evaluation</h3>
+<p>Let's record the model's answers to a subset of the test set.</p>
+<pre><code>
+  with open('fine-tuned_subset_test.txt', 'w') as f:
+    for i, entry in enumerate(subset_test_dataset):
+      text = entry["text"][:entry["text"].find('\nAnswer: ')] + '\nAnswer: '
+      inputs = tokenizer(text, return_tensors="pt", add_special_tokens=True)
+      outputs = model.generate(**inputs, max_new_tokens=20)
+      result = tokenizer.decode(outputs[0], skip_special_tokens=True)
+      f.write(str(i) + "\n")
+      f.write(result)
+      f.write('\n====================\n')
+</code></pre>
+
+<p> I used <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/ground_truth_subset_test.txt">the ground truth</a>, <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/original_subset_test.txt">the answers generated by the original model</a>, and <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/fine-tuned_subset_test.txt">the answers generated by the fine-tuned model</a> to perform a manual evaluation on a subset of the test set. The original model, answers the given question correctly in <strong>36%</strong> of the test cases whereas the fine-tuned model correctly answers <strong>62%</strong> of the test cases. You can find the <a href="https://github.com/ppashakhanloo/legal-gemma/blob/main/manual_evaluation.csv">model's behavior for individual samples in a separate file</a>. What surprises me is that this significant improvement is a result of very little amount of effort.</p>
+
+<h2>Conclusion and Considerations</h2>
+As we saw in this simple exercise, fine-tuning an LLM can significantly boost its performance on domain-specific tasks. Keep in mind that:
+<ol>
+	<li>The results are only as good as the dataset used.</li>
+	<li>Legal language changes; so we will need to update the model over time.</li>
+	<li>We should be mindful of the potential biases and fairness issues in the model's output.</li>
+</ol>
 
 </div>
      
