@@ -25,9 +25,9 @@ for post in sorted(os.listdir('_posts'), reverse=True):
         body = get_body(post_content)
         print(f"reading {post}")
     with open(f'blog/{post}', 'w') as f:
-        f.write(layout.replace(placeholder_text, body))
+        f.write(layout.replace('<h1 class="title">Random Notes</h1>', f'<h1 class="title">{title}</h1>').replace(placeholder_text, body))
 
-    titles_list += f"<p><a href=\"blog/{post}\">{title}</a></p>" + '\n\n'
+    titles_list += f"<p><a href=\"/blog/{post}\">{title}</a></p>" + '\n\n'
 
 with open('blog.html', 'w') as f:
     f.write(layout.replace(placeholder_text, titles_list))
