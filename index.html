@@ -295,6 +295,31 @@
                      </div>
                   </div>
                   <h2 id="publications" style="width:32px;padding-top:30px;border-bottom:5px solid #ad586f;">Publications</h2>
+                  <div class="publication" id="corvus">
+                     <div class="publication-description">
+                        <span class="publication-title">CORVUS: Context Optimization and Reduction Via Underlying Synchronization for LLM Coding Agents</span>
+                        <br>
+                        <span class="authors">
+                        <span class="">Mingwei Zheng</span>,
+                        <span class="">David OBrien</span>,
+                        <span class="">Siwei Cui</span>,
+                        <span class=""><i>Pardis Pashakhanloo</i></span>,
+                        <span class="">Rajdeep Mukherjee</span>,
+                        <span class="">Myeongsoo Kim</span>, and
+                        <span class="">Sachit Kuhar</span>
+                        </span>
+                        <br>
+                        <span class="venue" style="color:#666">arXiv preprint (2026)</span>
+                        <br>
+                        <a href="https://arxiv.org/abs/2607.22711">Paper</a>
+                        <details>
+                           <summary>Abstract</summary>
+                           <p class="publication-abstract">
+                              LLM coding agents operate by constructing trajectories that accumulate reasoning, tool calls, and results to enable multi-step decision-making. However, the conventional append-only trajectory architecture found in practice tightly couples file-read actions with their observations, capturing snapshots that become permanently fixed in the chronological history. As files change through agent edits or concurrent human modifications, these snapshots become stale, causing reasoning errors and causing agents to redundantly re-read files, with each re-read appending yet another copy to the trajectory. To mitigate this, we propose CORVUS, a novel trajectory architecture that decouples file-read actions from their observations by maintaining a synchronized registry of relevant files and injecting only their current contents at each reasoning cycle. This structural change produces significantly lighter-weight trajectories that remain synchronized with the actual codebase state by construction, eliminating redundant file copies and stale snapshots that bloat conventional trajectories. We evaluated CORVUS on SWE-POLYBENCH_VERIFIED and SWE-BENCH PRO across four LLMs, achieving 9-50% reduction in average input tokens per task, 15-32% shorter final prompts, and up to 37% fewer reasoning cycles while maintaining comparable pass rates.
+                           </p>
+                        </details>
+                     </div>
+                  </div>
                   <div class="publication" id="codetrek">
                      <div class="publication-description">
                         <span class="publication-title">CodeTrek: Flexible Modeling of Code using an Extensible Relational Representation</span>
