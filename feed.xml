@@ -17,7 +17,7 @@
       <title>Fine-Tuning a Language Model for Legal Question Answering</title>
       <link>https://pardisp.github.io/blog/post_8.html</link>
       <guid isPermaLink="true">https://pardisp.github.io/blog/post_8.html</guid>
-      <description>The legal domain is filled with complex terminology, nuanced interpretations, and the need for precise answers. This makes it a perfect challenge for the power of natural language processing (NLP). However, generic language models often struggle to grasp the subtleties of legal text. To satisfy my…</description>
+      <description>The legal domain is filled with complex terminology, nuanced interpretations, and the need for precise answers. That makes it a good test for natural language processing (NLP), and generic language models often struggle with the subtleties of legal text. To satisfy my curiosity, in this post I walk…</description>
       <pubDate>Fri, 01 Mar 2024 00:00:00 +0000</pubDate>
     </item>
     <item>
@@ -28,24 +28,17 @@
       <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>Neurips 2021 ML4Code-related Papers</title>
+      <title>NeurIPS 2020 ML4Code-related Papers</title>
       <link>https://pardisp.github.io/blog/post_6.html</link>
       <guid isPermaLink="true">https://pardisp.github.io/blog/post_6.html</guid>
-      <description>Many interesting papers appear every year at Neurips. Only a small subset are considered ml4code or of interest to ml4code community. So, to make life easier, I made a list. Unsupervised Translation of Programming Languages Multi-label Contrastive Predictive Coding Feature Importance Ranking for…</description>
+      <description>Many interesting papers appear every year at NeurIPS, and only a small subset are considered ml4code or are of interest to the ml4code community. So, to make life easier, I made a list. Unsupervised Translation of Programming Languages Multi-label Contrastive Predictive Coding Feature Importance…</description>
       <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>Deep Learning for Code: a Collection of Papers</title>
-      <link>https://pardisp.github.io/blog/post_5.html</link>
-      <guid isPermaLink="true">https://pardisp.github.io/blog/post_5.html</guid>
-      <description>In this post, I try to list every ML/DL paper that targets code understanding, code representation, and bug finding. Despite my efforts to compile an exhaustive list, there are definitely ones that I have missed. Please email me if you find a paper that is missing. I will keep this post up-to-date…</description>
-      <pubDate>Wed, 01 Dec 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Public Datasets for Code Understanding Tasks</title>
       <link>https://pardisp.github.io/blog/post_4.html</link>
       <guid isPermaLink="true">https://pardisp.github.io/blog/post_4.html</guid>
-      <description>Labeled data is typically scarce for code-understanding tasks, both for training and evaluation purposes. In this post, I share a number of datasets that ML/SE researchers have collected and (kindly) shared. I will keep this post up-to-date as I find new datsets. Please email me if some dataset is…</description>
+      <description>Labeled data is typically scarce for code-understanding tasks, both for training and evaluation purposes. In this post, I share a number of datasets that ML/SE researchers have collected and (kindly) shared. I will keep this post up-to-date as I find new datasets. Please email me if some dataset is…</description>
       <pubDate>Wed, 01 Dec 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
@@ -59,14 +52,14 @@
       <title>Hardening C/C++ Code with Clang Sanitizers</title>
       <link>https://pardisp.github.io/blog/post_2.html</link>
       <guid isPermaLink="true">https://pardisp.github.io/blog/post_2.html</guid>
-      <description>Many common programming errors manifest as violations of general safety properties such as memory safety (e.g. null pointer dereferencing) and concurrency safety (e.g. data races). Certain languages such as Rust aim to statically check such properties but impose additional burden on developers.…</description>
+      <description>Many common programming errors manifest as violations of general safety properties such as memory safety (e.g. null pointer dereferencing) and concurrency safety (e.g. data races). Certain languages such as Rust aim to statically check such properties but impose an additional burden on developers.…</description>
       <pubDate>Sun, 10 May 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>The Checker Framework</title>
       <link>https://pardisp.github.io/blog/post_1.html</link>
       <guid isPermaLink="true">https://pardisp.github.io/blog/post_1.html</guid>
-      <description>If you are interested in preventing bugs in your Java project, look no further. The Checker Framework improves Java’s type system through annotations to detect and prevent errors in Java programs. It includes compiler checkers that find bugs or verify the absence of them. The Checker Framework is…</description>
+      <description>If you are interested in preventing bugs in your Java project, look no further. The Checker Framework improves Java’s type system through annotations to detect and prevent errors in Java programs. It includes compiler checkers that find bugs, or verify their absence. The Checker Framework is widely…</description>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
     </item>
     <item>

@@ -1,4 +1,4 @@
-<title><large>A Fuzzing Lesson (AFL)  <small style="font-weight: lighter;"> April 13, 2020 </small></large></title>
+<title>A Fuzzing Lesson (AFL) <small style="font-weight: lighter;"> April 13, 2020 </small></title>
 <post>
 <p style="font-weight: 200;">
 Do not be misled by the title; AFL does not stand for <i>A Fuzzing Lesson</i>. It stands for <i>American Fuzzy Lop</i>: one of the cutest animals out there. You might wonder what this rabbit is doing here since this is not a biology class. In fact, the state-of-the-art fuzzer that you are going to learn about is named after this cute rabbit.
@@ -18,8 +18,7 @@ We start out by discussing the design goals of AFL which make it widely usable.
 </p>
 
 <p style="font-weight: 200;">
-<strong style="font-weight:500;">2. AFL Focuses on Code Coverage.</strong> Coverage-guided fuzzing (aka grey-box fuzzing) tries to maximize the code coverage of a program such that more and more code branches are exercised. AFL instrumentation captures branch coverage and hit counts. It maintains an array <code>shared_mem</code> which is a 64 KB region passed to the instrumented binary. It keeps the information regarding the branch source and branch destination for each branch as tuples. So, it distinguishes between the following
-execution paths and tries to discover new paths in each iteration. For example, it can distinguish between these execution paths:</p>
+<strong style="font-weight:500;">2. AFL Focuses on Code Coverage.</strong> Coverage-guided fuzzing (aka grey-box fuzzing) tries to maximize the code coverage of a program such that more and more code branches are exercised. AFL instrumentation captures branch coverage and hit counts. It maintains an array <code>shared_mem</code> which is a 64 KB region passed to the instrumented binary. It keeps the information regarding the branch source and branch destination for each branch as tuples. So it tries to discover new paths in each iteration, and it can tell these two execution paths apart:</p>
 
 <pre>
 (1) A --> B --> C --> D
@@ -34,7 +33,7 @@ execution paths and tries to discover new paths in each iteration. For example, 
 
 <p style="font-weight: 200;">
 <strong style="font-weight:500;">3. AFL is Easy to Use.</strong>
-AFL is designed to be highly practical. Compared to other fuzzers, AFL requires virtually no configuration and fine-tuning. You can  jump to the end of this article for a quick guide describing how to run AFL. Thereafter, you will be set to start using AFL to hunt bugs in programs!
+AFL is designed to be highly practical. Compared to other fuzzers, AFL requires virtually no configuration and fine-tuning. You can jump to the end of this article for a quick guide describing how to run AFL. Thereafter, you will be set to start using AFL to hunt bugs in programs!
 </p>
 
 
@@ -45,7 +44,7 @@ Although AFL can be used without additional options, one can use additional tool
 
 <p style="font-weight: 200;">
 <strong style="font-weight:500;">5. AFL Can Minimize Generated Inputs.</strong>
-AFL provides a tool, <code>afl-tmin</code> and <code>afl-cmin</code>, for test case minimization. It takes an input file and tries to trim as much data as possible while producing the same crashing state or instrumentation output. In other words, it minimizes the input without altering the execution path. This is especially useful when reporting or investigating a crash.
+AFL provides two tools, <code>afl-tmin</code> and <code>afl-cmin</code>, for test case minimization. It takes an input file and tries to trim as much data as possible while producing the same crashing state or instrumentation output. In other words, it minimizes the input without altering the execution path. This is especially useful when reporting or investigating a crash.
 </p>
 
 <h2>Kinds of Input Mutations</h2>
@@ -60,9 +59,9 @@ AFL is based on a set of mutation strategies that are shown to utilize CPU effic
 </p>
 
 <pre>
-<div>               <kiv>
-AFL Rocks!   ==>    AFL Rhcks!
-</div>              3/div>
+&lt;div&gt;              &lt;kiv&gt;
+AFL Rocks!    ==&gt;   AFL Rhcks!
+&lt;/div&gt;             3/div&gt;
 </pre>
 
 <p style="font-weight: 200;">
@@ -70,13 +69,14 @@ Although the number of the additional paths seems small, since AFL usually explo
 </p>
 
 <p style="font-weight: 200;">
-<strong style="font-weight:500;">2. Byte Flips:</strong> A natural extension to the previous strategy is flipping bytes. This strategy involves flipping 8-, 16-, or 32-bit wide bitflip. Nearly 30 additional paths are discovered per million generated inputs. Note that this strategy is much cheaper compared to flipping bits due to the underlying hardware support for flipping bytes. However, it limits the opportunities to find additional paths.
+<strong style="font-weight:500;">2. Byte Flips:</strong> A natural extension to the previous strategy is flipping bytes. This strategy involves 8-, 16-, and 32-bit wide flips. Nearly 30 additional paths are discovered per million generated inputs. Note that this strategy is much cheaper compared to flipping bits due to the underlying hardware support for flipping bytes. However, it limits the opportunities to find additional paths.
 </p>
 
 <pre>
-<div>               C   >
-AFL Rocks!   ==>    AFL Rhcks!
-</div>              Pv>
+"AFL Rocks!"   41 46 4c 20 52 6f 63 6b 73 21
+               ==&gt;
+"AFL R?cks!"   41 46 4c 20 52 90 63 6b 73 21
+                              ^^ byte 5 flipped: 6f becomes 90
 </pre>
 
 <p style="font-weight: 200;">
@@ -84,7 +84,7 @@ AFL Rocks!   ==>    AFL Rhcks!
 </p>
 
 <p style="font-weight: 200;">
-<strong style="font-weight:500;">4. Known Integers:</strong> Another deterministic strategy in AFL involves replacing the numbers in the input file with a hardcoded set of integer numbers that are likely to trigger edge, crashing cases. Examples of such integers include 0, -1, MAX_INT, and MIN_INT-1. This strategy leads to discovering 2-5 additional paths per one million generated inputs.
+<strong style="font-weight:500;">4. Known Integers:</strong> Another deterministic strategy in AFL involves replacing the numbers in the input file with a hardcoded set of integer numbers that are likely to trigger edge cases and crashes. Examples of such integers include 0, -1, MAX_INT, and MIN_INT-1. This strategy leads to discovering 2-5 additional paths per one million generated inputs.
 </p>
 
 <pre>
@@ -102,18 +102,16 @@ char *t                       ==>     char *t
 
 <h2>Real Bugs Found by AFL</h2>
 <p style="font-weight: 200;">
-AFL has been able to find <a href="http://lcamtuf.coredump.cx/afl/#bugs">many interesting bugs</a> to date, around 500 of which have been security vulnerabilities, and [have been officially reported](https://github.com/mrash/afl-cve). Here is a sampling of the kinds of bugs together with links to the corresponding vulnerabilities found by AFL:
+AFL has been able to find <a href="http://lcamtuf.coredump.cx/afl/#bugs">many interesting bugs</a> to date, around 500 of which have been security vulnerabilities, and <a href="https://github.com/mrash/afl-cve">have been officially reported</a>. Here is a sampling of the kinds of bugs together with links to the corresponding vulnerabilities found by AFL:
 </p>
 
-<p style="font-weight: 200;">
 <ol>
-<li>Assertion violation [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9399">CVE-2016-9399</a>]
-<li>Buffer overflow [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8126">CVE-2015-8126</a>]
-<li>Integer overflow [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-6839">CVE-2017-6839</a>]
-<li>Null dereference [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7475">CVE-2017-7475</a>]
-<li>Infinite loop [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5852">CVE-2017-5852</a>]
+<li>Assertion violation [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9399">CVE-2016-9399</a>]</li>
+<li>Buffer overflow [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8126">CVE-2015-8126</a>]</li>
+<li>Integer overflow [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-6839">CVE-2017-6839</a>]</li>
+<li>Null dereference [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7475">CVE-2017-7475</a>]</li>
+<li>Infinite loop [example: <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5852">CVE-2017-5852</a>]</li>
 </ol>
-</p>
 
 <h2>Quick Guide to Run AFL</h2>
 

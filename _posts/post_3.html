@@ -1,4 +1,4 @@
-<title><large>Perceptron, MLP, and Backpropagation <small style="font-weight: lighter;"> October 10, 2021</small></large></title>
+<title>Perceptron, MLP, and Backpropagation <small style="font-weight: lighter;"> October 10, 2021</small></title>
 <post>
 <h2>Perceptron</h2>
 <p style="font-weight: 200">
@@ -6,7 +6,7 @@ Perceptron is a small unit in neural networks. It takes <i>n</i> inputs, compute
 </p>
 
 <p style="font-weight: 200">
-We are going to create a simple classifier using Perceptron that predicts the language (among C, C#, C++, D, Haskell, Java, JS, PHP, Python, and Rust) in which a program is written. For this simple example I just use the number of occurences of 22 tokens as features.
+We are going to create a simple classifier using Perceptron that predicts the language (among C, C#, C++, D, Haskell, Java, JS, PHP, Python, and Rust) in which a program is written. For this simple example I just use the number of occurrences of 22 tokens as features.
 </p>
 
 <p style="font-weight: 200">
@@ -14,7 +14,7 @@ You can download the test and train data from the following links: <a href="/_po
 </p>
 
 <p style="font-weight: 200">
-The following lines of code, train a multi-class classifier and evaluate it.
+The following lines of code train a multi-class classifier and evaluate it.
 </p>
 
 <pre>
@@ -45,14 +45,14 @@ Mean accuracy: 0.95
 </pre>
 
 
-<h3>Multi-layer Perceptron</h3>
+<h2>Multi-layer Perceptron</h2>
 <p style="font-weight: 200">
-A multi-layer perceptron has 1) one input layer, 2) a number of hidden layers, and 3) an output layer. The building blocks in this kind if network is the Perceptron. Each layer is fully connected to the next layer. The message passes in one direction (from lower layer to upper layers) so it is conviniently called <i>feed forward</i> network. If there are several hidden layers then it is called a <i>deep</i> network.
+A multi-layer perceptron has 1) one input layer, 2) a number of hidden layers, and 3) an output layer. The building block of this kind of network is the Perceptron. Each layer is fully connected to the next layer. The message passes in one direction (from lower layer to upper layers) so it is conveniently called <i>feed forward</i> network. If there are several hidden layers then it is called a <i>deep</i> network.
 </p>
 
-<h3>Backpropagation</h3>
+<h2>Backpropagation</h2>
 <p style="font-weight: 200">
-After the weights of the model is set to random values, one small batch of samples are run through the network in <i>forward</i> direction until it makes the final predictions. Then, the error is measured in reverse---or <i>backwards</i>---for each layer with the goal of finding how much each connection contributes to the error. Finally, the weights are re-adjusted based on the computed values.
+After the weights of the model are set to random values, one small batch of samples is run through the network in the <i>forward</i> direction until it makes the final predictions. Then the error is measured <i>backwards</i>, layer by layer, to find how much each connection contributes to it. Finally, the weights are re-adjusted based on the computed values.
 As I mentioned earlier, in the original Perceptron, a step function was used at the final step. In modern MLPs, however, this step function is replaced by other <i>activation</i> functions such as <i>tanh</i> and <i>relu</i>.
 </p>
 
