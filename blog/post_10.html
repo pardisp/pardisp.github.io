@@ -169,10 +169,13 @@ Several systems shipped in 2026 with the same instinct: get the validator away f
 
 <h3>Cross-model critics</h3>
 <p>
-GitHub's <a href="https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-combines-model-families-for-a-second-opinion/">Copilot CLI second opinion</a> reviews the primary agent's work using a model from a different family, so coding with Claude gets you a GPT reviewer and the other way around. GitHub reports that pairing Claude Sonnet with the reviewer closes 74.7% of the gap between Sonnet on its own and the considerably more expensive Opus on hard multi-file tasks.
+GitHub shipped <a href="https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-combines-model-families-for-a-second-opinion/">Rubber Duck</a> in Copilot CLI on 6 April, still behind <code>/experimental</code> rather than on by default. It is a review agent running on a model from a different family than the one orchestrating your session, so choosing Claude as the orchestrator gets you GPT-5.4 as the reviewer. Their stated reasoning is the argument I would make as well: a model reviewing its own work stays bounded by the same training data and the same blind spots, so what you want is a reader whose mistakes are uncorrelated with yours.
 </p>
 <p>
-The diversity is doing as much work here as the separation. Models within a family tend to fail in the same places, so a same-family reviewer agrees with the generator exactly where you needed someone to object.
+Two design details interest me more than the headline number. Rubber Duck looks at the plan before execution rather than only the finished diff, which is where a misread of the task is cheapest to catch. And its output is a short list of concerns, questionable assumptions, and edge cases, meaning it flags rather than rewrites. Independent and flag-only is precisely the configuration the debate results point at.
+</p>
+<p>
+For the number itself, GitHub reports that Claude Sonnet with Rubber Duck makes up 74.7% of the performance gap between Sonnet and Opus alone on difficult multi-file and long-running tasks. That evaluation ran on SWE-Bench Pro in April, three months before the audit that called roughly 30% of the same benchmark into question, so I would lean on the direction rather than the decimal.
 </p>
 
 <h3>Completion contracts</h3>
@@ -211,7 +214,7 @@ The checks that survive contact with a real agent are the ones anchored to somet
 
 <h2>What I have been trying</h2>
 <p>
-I have been working on this from roughly that direction, under the working name functional task alignment. The question I keep circling is a narrow one. Given a task specification and whatever an agent did in response, can you check the specification's claims one at a time, without asking the agent how it went and without leaning on whichever tests happened to already be there?
+Since February I have been working on this from roughly that direction, under the working name functional task alignment. The question I keep circling is a narrow one. Given a task specification and whatever an agent did in response, can you check the specification's claims one at a time, without asking the agent how it went and without leaning on whichever tests happened to already be there?
 </p>
 <p>
 This is exploratory. It is not something anyone can pick up and run today. I am writing it down because the five points above are what pushed me toward this shape instead of something simpler. The self-review results are why claims come from the specification rather than from the agent's own account. Independence is why the checking sits in its own process. Since an LLM judge inherits the failure it is meant to catch, the checks have to watch behavior instead of reading structure. And a single verdict turned out to be almost useless in practice, so results stay separated by claim.
