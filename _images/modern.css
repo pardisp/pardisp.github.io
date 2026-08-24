@@ -1,0 +1,486 @@
+/* ==========================================================================
+   modern.css: modernization layer, loaded after main.css
+   Keeps the original structure and maroon accent; adds design tokens,
+   fluid typography, real responsiveness, dark mode, and focus styles.
+   ========================================================================== */
+
+:root {
+  --accent: #ad586f;
+  --accent-strong: #6c0c39;
+  --accent-soft: rgba(173, 88, 111, 0.12);
+
+  --bg: #fdfdfd;
+  --bg-raised: #ffffff;
+  --bg-subtle: #f5f5f7;
+  --text: #14161a;
+  --text-muted: #5c6270;
+  --border: #e4e4e8;
+  --border-strong: #c9c9d1;
+
+  --rule: 5px;
+  --radius: 10px;
+  --measure: 72ch;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+/* --------------------------------------------------------------------------
+   Dark mode
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #e5899f;
+    --accent-strong: #f4b3c2;
+    --accent-soft: rgba(229, 137, 159, 0.16);
+
+    --bg: #121316;
+    --bg-raised: #1a1c20;
+    --bg-subtle: #1f2126;
+    --text: #e9eaee;
+    --text-muted: #a3a8b4;
+    --border: #2c2f36;
+    --border-strong: #3d414a;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 0.55rem + 0.5vw, 17.5px);
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg);
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+}
+
+p { max-width: var(--measure); }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+a:visited { color: var(--accent); }
+a:hover,
+a:focus-visible {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+/* Visible keyboard focus everywhere (main.css had none) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+img { height: auto; }
+
+/* Skip link for keyboard and screen-reader users */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.6em 1em;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 0 0 var(--radius) 0;
+}
+.skip-link:focus {
+  left: 0;
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Header / nav
+   -------------------------------------------------------------------------- */
+.site-header {
+  border-top: var(--rule) solid var(--accent);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+/* The site title used to be an empty anchor; now it carries the name. */
+.site-title,
+.site-title:visited {
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 54px;
+}
+.site-title:hover,
+.site-title:focus-visible {
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .site-title { font-size: 0.95rem; }
+}
+
+.site-nav .page-link {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+.site-nav .page-link:hover,
+.site-nav .page-link:focus-visible {
+  color: var(--accent-strong);
+  border-bottom-color: var(--accent);
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .site-nav {
+    background-color: var(--bg-raised);
+    border: 1px solid var(--border);
+  }
+  .site-nav .menu-icon > svg { fill: var(--text-muted); }
+}
+
+/* --------------------------------------------------------------------------
+   Section headings: consistent accent bar, replaces per-heading inline widths
+   -------------------------------------------------------------------------- */
+.wrapper .home h2.section-heading {
+  position: relative;
+  width: auto;
+  max-width: none;
+  padding-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.25rem;
+  border-bottom: none;
+  font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.35rem);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 1.5rem;
+}
+.wrapper .home h2.section-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 44px;
+  height: var(--rule);
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+/* --------------------------------------------------------------------------
+   Intro
+   -------------------------------------------------------------------------- */
+.intro {
+  margin-left: 5rem;
+  margin-right: 5rem;
+  gap: 0;
+  font-weight: 400;
+  align-items: flex-start;
+}
+.intro p { color: var(--text); }
+
+.intro-image img {
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* The name is the page's h1 (for search engines), styled to look unchanged. */
+.intro-name {
+  padding-top: 1em;
+  margin-bottom: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+div.intro-title { color: var(--text-muted); font-size: 0.92rem; }
+
+img.social-thumbnail {
+  height: 2.5em;
+  border-radius: 8px;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+img.social-thumbnail:hover {
+  background-color: var(--accent-soft);
+  transform: translateY(-1px);
+}
+
+.notice {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* --------------------------------------------------------------------------
+   Body / publications
+   -------------------------------------------------------------------------- */
+div.body { margin-left: 5rem; margin-right: 5rem; }
+
+div.publication {
+  padding-top: 1.5em;
+  padding-bottom: 0.5em;
+  border-top: 1px solid var(--border);
+}
+#publications + .publication,
+#workshop + .publication { border-top: none; }
+
+span.publication-title {
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+span.authors { color: var(--text-muted); font-size: 0.95rem; }
+span.venue,
+span.year {
+  color: var(--text-muted) !important; /* beats inline style="color:#666" */
+  font-size: 0.92rem;
+}
+
+div.publication-description > a {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+p.publication-abstract {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  font-weight: 400;
+  max-width: var(--measure);
+  padding-left: 0.9em;
+  border-left: 2px solid var(--border);
+}
+
+details > summary {
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 0.35em;
+  color: var(--accent);
+  font-size: 0.9rem;
+  list-style: none;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+  content: "▸ ";
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+details[open] > summary::before { content: "▾ "; }
+details > summary:hover { color: var(--accent-strong); }
+
+/* --------------------------------------------------------------------------
+   Highlight + project cards: responsive grid instead of fixed percentages
+   -------------------------------------------------------------------------- */
+div.highlights,
+div.projects {
+  display: grid;
+  gap: 0.75rem;
+  justify-content: initial;
+}
+div.highlights { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+div.projects { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+
+div.highlight,
+div.project {
+  width: auto;
+  margin: 0 !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  transition: border-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+div.highlight:hover,
+div.project:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+.highlight-title { font-weight: 600; }
+.highlight-description {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.88rem;
+}
+.project-title { font-weight: 500; }
+
+/* --------------------------------------------------------------------------
+   Experience / service blocks
+   -------------------------------------------------------------------------- */
+div .experience { padding-top: 0.35em; padding-bottom: 0.85em; }
+div .experience p { max-width: var(--measure); }
+div .experience strong { font-weight: 650; }
+
+/* --------------------------------------------------------------------------
+   Code, quotes, tables
+   -------------------------------------------------------------------------- */
+pre, code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  border-color: var(--border);
+  background-color: var(--bg-subtle);
+  border-radius: 6px;
+}
+pre {
+  padding: 0.9em 1.1em;
+  line-height: 1.5;
+  max-width: 100%;
+}
+pre > code { background: none; }
+
+blockquote {
+  color: var(--text-muted);
+  border-left: 3px solid var(--accent);
+  padding: 0.2em 0 0.2em 1em;
+  font-size: 1rem;
+  letter-spacing: normal;
+  max-width: var(--measure);
+}
+
+table {
+  color: var(--text);
+  border-color: var(--border);
+  font-size: 0.94rem;
+  display: block;
+  overflow-x: auto;
+}
+table tr:nth-child(even) { background-color: var(--bg-subtle); }
+table th {
+  background-color: var(--bg-subtle);
+  border-color: var(--border);
+  border-bottom-color: var(--border-strong);
+}
+table td { border-color: var(--border); }
+
+.highlight, .highlighter-rouge .highlight { background: var(--bg-subtle); }
+
+/* --------------------------------------------------------------------------
+   Blog post content
+   -------------------------------------------------------------------------- */
+.post-content {
+  max-width: 68ch;
+  margin: 0 auto;
+}
+.post-content h1.title,
+.wrapper .home h1.title {
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.1rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+.post-content h2 {
+  font-size: clamp(1.1rem, 0.95rem + 0.6vw, 1.3rem) !important;
+  font-weight: 650;
+  margin-top: 2.25rem;
+  letter-spacing: -0.01em;
+}
+.post-content h3 {
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  color: var(--text);
+}
+.post-content p,
+.post-content li { font-weight: 400 !important; }
+.post-content img { border-radius: 8px; }
+
+/* --------------------------------------------------------------------------
+   Site footer
+   -------------------------------------------------------------------------- */
+.footer-mini {
+  margin: 4rem 5rem 0;
+  padding: 1.25rem 0 0.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.footer-mini p { margin-bottom: 0; max-width: none; }
+.footer-mini .view-count[hidden] { display: none; }
+.footer-mini .view-count {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive: the original fixed 5rem gutters and % card widths broke here
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 900px) {
+  header { margin-left: 1.5rem; margin-right: 1.5rem; }
+  .intro { margin-left: 1.5rem; margin-right: 1.5rem; }
+  div.body { margin-left: 1.5rem; margin-right: 1.5rem; }
+  .footer-mini { margin-left: 1.5rem; margin-right: 1.5rem; }
+}
+
+@media screen and (max-width: 700px) {
+  .intro {
+    display: block; /* stack photo above text instead of a cramped 2-col flex */
+  }
+  .intro-image {
+    float: none;
+    margin: 0 auto 1.5rem;
+    width: 180px;
+  }
+  div.publication { display: block; }
+  div.publication-thumbnail {
+    padding-right: 0;
+    padding-bottom: 0.75em;
+    text-align: left;
+  }
+  div .experience { display: block; }
+  div .when {
+    text-align: left;
+    padding-right: 0;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  header { margin-left: 0.75rem; margin-right: 0.75rem; }
+  .intro { margin-left: 0.75rem; margin-right: 0.75rem; }
+  div.body { margin-left: 0.75rem; margin-right: 0.75rem; }
+  .footer-mini { margin-left: 0.75rem; margin-right: 0.75rem; }
+  div.projects { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+}
+
+/* --------------------------------------------------------------------------
+   Motion + print
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .site-nav, .skip-link, .footer-mini { display: none !important; }
+  body { background: #fff; color: #000; }
+  a { color: #000; text-decoration: underline; }
+  .intro, div.body { margin-left: 0; margin-right: 0; }
+}
