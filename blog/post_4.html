@@ -60,7 +60,7 @@
         "author": {"@type": "Person", "name": "Pardis Pashakhanloo", "url": "https://pardisp.github.io/"},
         "publisher": {"@type": "Person", "name": "Pardis Pashakhanloo"},
         "inLanguage": "en",
-        "datePublished": "2021-12-01"
+        "datePublished": "2026-08-01"
      }
   </script>
 
@@ -103,52 +103,186 @@
         
 
 <div class="body">
-<h1 class="title">Public Datasets for Code Understanding Tasks <small style="font-weight: lighter;"> December, 2021</small></h1>
+<h1 class="title">Public Datasets for Code Understanding Tasks <small style="font-weight: lighter;"> August, 2026</small></h1>
 
 <p style="font-weight: 200">
 Labeled data is typically scarce for code-understanding tasks, both for training and evaluation purposes. In this post, I share a number of datasets that ML/SE researchers have collected and (kindly) shared. I will keep this post up-to-date as I find new datasets. Please email me if some dataset is missing.
 </p>
 
-<h2>Python</h2>
+<p style="font-weight: 200">
+I first put this list up in December 2021, when it fit in two short sections. Almost everything below arrived after that, and the shape of the field changed along with it. The datasets worth using now are mostly repository-level, executable, and multi-language, so I have grouped them by task instead of by language. Last updated August 2026.
+</p>
 
-<ol>
-<li>QuixBugs<br>
-<a href="https://jkoppel.github.io/QuixBugs/">https://jkoppel.github.io/QuixBugs/</a><br>
-<a href="https://jkoppel.github.io/QuixBugs/quixbugs.pdf">https://jkoppel.github.io/QuixBugs/quixbugs.pdf</a>
-</li>
+<h2>Issue resolving and agentic tasks</h2>
 
-<li>BugSwarm<br>
-<a href="http://www.bugswarm.org/dataset/">http://www.bugswarm.org/dataset/</a><br>
-<a href="https://web.cs.ucdavis.edu/~rubio/includes/icse19.pdf">https://web.cs.ucdavis.edu/~rubio/includes/icse19.pdf</a>
-</li>
+<ul>
+<li><strong>SWE-bench</strong>: real GitHub issues paired with the repository's own test suite. A patch counts only if those tests pass.
+<a href="https://www.swebench.com/">site</a>,
+<a href="https://github.com/SWE-bench/SWE-bench">code</a>,
+<a href="https://arxiv.org/abs/2310.06770">paper</a></li>
 
-<li>
-BugsInPy<br>
-<a href="https://github.com/soarsmu/BugsInPy">https://github.com/soarsmu/BugsInPy</a><br>
-<a href="https://dl.acm.org/doi/pdf/10.1145/3368089.3417943">https://dl.acm.org/doi/pdf/10.1145/3368089.3417943</a>
-</li>
+<li><strong>SWE-bench Verified</strong>: the human-filtered subset, and the split most papers report on. Worth understanding how it was filtered before comparing numbers against the full set.
+<a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified">dataset</a></li>
 
-<li>
-refactory<br>
-<a href="https://github.com/githubhuyang/refactory">https://github.com/githubhuyang/refactory</a><br>
-<a href="https://ieeexplore.ieee.org/abstract/document/8952522">https://ieeexplore.ieee.org/abstract/document/8952522</a>
-</li>
+<li><strong>Multi-SWE-bench</strong>: the same task in seven languages besides Python, which is useful when you suspect a result is really a result about Python.
+<a href="https://github.com/multi-swe-bench/multi-swe-bench">code</a>,
+<a href="https://arxiv.org/abs/2504.02605">paper</a></li>
 
-<li>
-Misc.<br>
-<a href="https://www.kaggle.com/saitejaponugoti/deepbugs-for-python">https://www.kaggle.com/saitejaponugoti/deepbugs-for-python</a>
-</li>
-</ol>
+<li><strong>SWE-Gym</strong>: executable environments meant for training issue-resolving agents rather than for scoring them.
+<a href="https://github.com/SWE-Gym/SWE-Gym">code</a>,
+<a href="https://arxiv.org/abs/2412.21139">paper</a></li>
 
-<h2>Java</h2>
+<li><strong>SWE-smith</strong>: synthesized task instances at scale, again on the training side.
+<a href="https://swesmith.com/">site</a>,
+<a href="https://arxiv.org/abs/2504.21798">paper</a></li>
 
-<ol>
-<li>
-XCorpus<br>
-<a href="https://bitbucket.org/jensdietrich/xcorpus/src/master">https://bitbucket.org/jensdietrich/xcorpus/src/master</a><br>
-<a href="http://www.jot.fm/issues/issue_2017_04/article1.pdf">http://www.jot.fm/issues/issue_2017_04/article1.pdf</a>
-</li>
-</ol>
+<li><strong>SWT-bench</strong>: the same repositories with the task inverted. The agent writes the test that reproduces the bug instead of the patch that fixes it.
+<a href="https://github.com/logic-star-ai/swt-bench">code</a>,
+<a href="https://arxiv.org/abs/2406.12952">paper</a></li>
+
+<li><strong>Commit0</strong>: build a library from scratch against its specification and test suite.
+<a href="https://commit-0.github.io/">site</a>,
+<a href="https://arxiv.org/abs/2412.01769">paper</a></li>
+</ul>
+
+<h2>Bugs and program repair</h2>
+
+<ul>
+<li><strong>QuixBugs</strong>: 40 small programs with single-line bugs, in both Python and Java. Still the fastest way to sanity-check a repair tool.
+<a href="https://jkoppel.github.io/QuixBugs/">site</a>,
+<a href="https://jkoppel.github.io/QuixBugs/quixbugs.pdf">paper</a></li>
+
+<li><strong>BugSwarm</strong>: reproducible fail-pass pairs mined from CI logs.
+<a href="http://www.bugswarm.org/dataset/">dataset</a>,
+<a href="https://web.cs.ucdavis.edu/~rubio/includes/icse19.pdf">paper</a></li>
+
+<li><strong>BugsInPy</strong>: real bugs from 17 Python projects with tests, in the spirit of Defects4J.
+<a href="https://github.com/soarsmu/BugsInPy">code</a>,
+<a href="https://dl.acm.org/doi/pdf/10.1145/3368089.3417943">paper</a></li>
+
+<li><strong>refactory</strong>: student Python assignments with reference fixes.
+<a href="https://github.com/githubhuyang/refactory">code</a>,
+<a href="https://ieeexplore.ieee.org/abstract/document/8952522">paper</a></li>
+
+<li><strong>XCorpus</strong>: Java programs with executable harnesses.
+<a href="https://bitbucket.org/jensdietrich/xcorpus/src/master">code</a>,
+<a href="http://www.jot.fm/issues/issue_2017_04/article1.pdf">paper</a></li>
+
+<li><strong>GitBug-Java</strong>: recent Java bugs that still build, which is rarer than it sounds.
+<a href="https://github.com/gitbugactions/gitbug-java">code</a>,
+<a href="https://arxiv.org/abs/2402.02961">paper</a></li>
+
+<li><strong>RunBugRun</strong>: repair tasks in several languages, executable, so candidate fixes are checked by running them rather than by matching a reference patch.
+<a href="https://github.com/giganticode/run_bug_run">code</a>,
+<a href="https://arxiv.org/abs/2304.01102">paper</a></li>
+
+<li><strong>Defectors</strong>: Python defect prediction at file and line granularity.
+<a href="https://zenodo.org/records/7708984">dataset</a>,
+<a href="https://arxiv.org/abs/2303.04738">paper</a></li>
+
+<li><strong>DeepBugs for Python</strong>: a Kaggle mirror of name-based bug detection data.
+<a href="https://www.kaggle.com/saitejaponugoti/deepbugs-for-python">dataset</a></li>
+</ul>
+
+<h2>Generation and execution</h2>
+
+<ul>
+<li><strong>EvalPlus</strong> (HumanEval+, MBPP+): the original benchmarks with far more tests. Several published pass rates drop once you run these instead, which says something about the original suites.
+<a href="https://github.com/evalplus/evalplus">code</a>,
+<a href="https://arxiv.org/abs/2305.01210">paper</a></li>
+
+<li><strong>BigCodeBench</strong>: function calls across many libraries, with instructions more involved than a docstring.
+<a href="https://bigcode-bench.github.io/">site</a>,
+<a href="https://arxiv.org/abs/2406.15877">paper</a></li>
+
+<li><strong>LiveCodeBench</strong>: contest problems tagged with release dates, so evaluation can be restricted to problems published after a model's training cutoff. The most practical answer to contamination that I know of.
+<a href="https://livecodebench.github.io/">site</a>,
+<a href="https://arxiv.org/abs/2403.07974">paper</a></li>
+
+<li><strong>CRUXEval</strong>: predict a function's output from its input, and its input from its output. Execution reasoning rather than generation.
+<a href="https://crux-eval.github.io/">site</a>,
+<a href="https://arxiv.org/abs/2401.03065">paper</a></li>
+
+<li><strong>DS-1000</strong>: data science problems over pandas, numpy and friends, drawn from real StackOverflow questions.
+<a href="https://ds1000-code-gen.github.io/">site</a>,
+<a href="https://arxiv.org/abs/2211.11501">paper</a></li>
+
+<li><strong>MultiPL-E</strong>: HumanEval and MBPP translated into more than a dozen languages.
+<a href="https://nuprl.github.io/MultiPL-E/">site</a>,
+<a href="https://arxiv.org/abs/2208.08227">paper</a></li>
+
+<li><strong>ClassEval</strong>: class-level generation instead of standalone functions.
+<a href="https://github.com/FudanSELab/ClassEval">code</a>,
+<a href="https://arxiv.org/abs/2308.01861">paper</a></li>
+
+<li><strong>CodeContests</strong>: competitive programming problems with many tests each, from the AlphaCode paper.
+<a href="https://github.com/google-deepmind/code_contests">code</a>,
+<a href="https://arxiv.org/abs/2203.07814">paper</a></li>
+
+<li><strong>HumanEvalPack</strong>: HumanEval extended to synthesis, explanation, and repair across six languages.
+<a href="https://huggingface.co/datasets/bigcode/humanevalpack">dataset</a>,
+<a href="https://arxiv.org/abs/2308.07124">paper</a></li>
+</ul>
+
+<h2>Repository context and completion</h2>
+
+<ul>
+<li><strong>RepoBench</strong>: completion where the useful context lives in other files.
+<a href="https://github.com/Leolty/repobench">code</a>,
+<a href="https://arxiv.org/abs/2306.03091">paper</a></li>
+
+<li><strong>CrossCodeEval</strong>: cross-file completion in Python, Java, TypeScript, and C#.
+<a href="https://crosscodeeval.github.io/">site</a>,
+<a href="https://arxiv.org/abs/2310.11248">paper</a></li>
+
+<li><strong>Long Code Arena</strong>: a set of long-context tasks, including commit message generation, bug localization, and module summarization.
+<a href="https://huggingface.co/spaces/JetBrains-Research/long-code-arena">site</a>,
+<a href="https://arxiv.org/abs/2406.11612">paper</a></li>
+
+<li><strong>DevEval</strong>: manually annotated against real repository structure and dependencies.
+<a href="https://github.com/seketeam/DevEval">code</a>,
+<a href="https://arxiv.org/abs/2405.19856">paper</a></li>
+</ul>
+
+<h2>Vulnerabilities</h2>
+
+<ul>
+<li><strong>DiverseVul</strong>: vulnerable functions from a wide set of projects. The label-quality analysis is arguably more useful than the data.
+<a href="https://github.com/wagner-group/diversevul">code</a>,
+<a href="https://arxiv.org/abs/2304.00409">paper</a></li>
+
+<li><strong>PrimeVul</strong>: cleaner labels and a paired setting. Detectors that looked strong on older datasets do considerably worse here, which is the point of the paper.
+<a href="https://github.com/DLVulDet/PrimeVul">code</a>,
+<a href="https://arxiv.org/abs/2403.18624">paper</a></li>
+
+<li><strong>ARVO</strong>: reproducible OSS-Fuzz vulnerabilities, each with a crashing input and the fixing commit.
+<a href="https://github.com/n132/ARVO-Meta">code</a>,
+<a href="https://arxiv.org/abs/2408.02153">paper</a></li>
+
+<li><strong>CVEfixes</strong>: CVEs joined to their fixing commits across many projects.
+<a href="https://github.com/secureIT-project/CVEfixes">code</a>,
+<a href="https://arxiv.org/abs/2107.08760">paper</a></li>
+
+<li><strong>CyberSecEval</strong>: insecure code generation and cyberattack helpfulness, from Meta's Purple Llama.
+<a href="https://github.com/meta-llama/PurpleLlama">code</a>,
+<a href="https://arxiv.org/abs/2404.13161">paper</a></li>
+</ul>
+
+<h2>Pretraining corpora</h2>
+
+<ul>
+<li><strong>The Stack v2</strong>: the permissively licensed corpus behind StarCoder2.
+<a href="https://huggingface.co/datasets/bigcode/the-stack-v2">dataset</a>,
+<a href="https://arxiv.org/abs/2402.19173">paper</a></li>
+
+<li><strong>CommitPack</strong>: 4TB of git commits across 350 languages, which is the closest thing available to a corpus of code edits rather than code snapshots.
+<a href="https://huggingface.co/datasets/bigcode/commitpack">dataset</a>,
+<a href="https://arxiv.org/abs/2308.07124">paper</a></li>
+</ul>
+
+<p style="font-weight: 200">
+One habit I would recommend to anyone picking from this list: write down the construction date of the dataset next to the training cutoff of whatever model you plan to evaluate, and do it before you run anything. Most of the entries above predate the models people now test on them. The ones that handle this explicitly, like LiveCodeBench and GitBug-Java, are the exception rather than the rule.
+</p>
 
 <hr>
 

@@ -1,0 +1,126 @@
+<title>The Validation Gap <small style="font-weight: lighter;"> August, 2026</small></title>
+<post>
+<p style="font-weight: 200">
+The code these agents write keeps getting better. Figuring out whether any of it did what you asked has not kept pace.
+</p>
+
+<h2>When "done" is just a claim</h2>
+<p>
+Coding agents are extremely good at producing plausible output. They write a confident summary of what they did, mark the task complete, and move on. Several papers this year land on the same failure: the agent reports a success it did not have.
+</p>
+<p>
+Tian Pan calls this <a href="https://tianpan.co/blog/2026-04-23-hallucinated-success-agent-false-completion">hallucinated success</a>. Crashes are the easy case, because a crash tells you something happened. The hard case is the agent that finishes cleanly and is wrong about having finished. It assembles an account of having solved the problem while none of the side effects ever occurred. Self-reflective loops like ReAct and Reflexion can make this worse rather than better, and the reason is a little uncomfortable: what the agent reflects on is its own narration, so a second pass often just buys a more coherent story.
+</p>
+<p>
+This is not a thought experiment. Audits of SWE-bench results keep surfacing patches that pass the test suite without fixing the issue they were written for. Whatever else you do, you cannot treat a self-reported "done" as the foundation for the rest of the pipeline.
+</p>
+
+<h2>The benchmarks moved too</h2>
+<p>
+The obvious response is to stop asking the agent and check a benchmark instead. That ground shifted in 2026.
+</p>
+<p>
+In February, OpenAI <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/">retired SWE-bench Verified</a>, at the time the most cited coding agent benchmark anywhere, after finding that 59% of its hardest tasks had flawed test suites. A <a href="https://openai.com/index/separating-signal-from-noise-coding-evaluations/">follow-up audit</a> in July put roughly 30% of SWE-bench Pro tasks in the same bucket, with problems ranging from overly strict tests to underspecified prompts and task descriptions that pointed the wrong way.
+</p>
+<p>
+I do not read any of that as careless benchmark authoring. A test is a proxy for what somebody wanted, and proxies drift. <a href="https://arxiv.org/abs/2604.00392">Beyond Task Completion</a>, from the KDD 2026 Workshop on Agentic AI Evaluation and Trustworthiness, puts a number on one version of the drift. Looking at agents that synthesize their own tools, 96.8% of those tools scored zero when replayed against a held-out conformance suite, and nothing had tripped during the session that produced them. Their framing is the part I keep coming back to: task completion certifies the answer, not the library.
+</p>
+
+<h2>Finishing a task and understanding it are different skills</h2>
+<p>
+<a href="https://arxiv.org/abs/2605.12233">No More, No Less: Task Alignment in Terminal Agents</a> (May 2026) separates the two cleanly. Its TAB benchmark hands agents 89 deliberately underspecified tasks, each seeded with genuine contextual cues alongside plausible distractors. The agent that was best at completing tasks scored badly on alignment.
+</p>
+<p>
+That result is easy to nod along to and harder to absorb. Taken seriously, it means a capability leaderboard and an alignment leaderboard can order the same models differently, and most of what gets reported is the first kind.
+</p>
+<p>
+<a href="https://arxiv.org/abs/2607.21217">ICAE-Bench</a> (July 2026) gets to nearby ground from the product end, starting agents from fuzzy requirements instead of specified tasks. Ambiguity is the normal condition of real work, and it widens the distance between code that looks right and code that does what someone wanted.
+</p>
+<p>
+<a href="https://arxiv.org/abs/2606.26300">The Verification Horizon</a> (June 2026) is the one that reframed this for me. The problem gets worse as agents get better, because a stronger generator is also stronger at satisfying a proxy while sailing past the thing the proxy stood for. Every check is a proxy, intent is underspecified, and a validator that holds still eventually gets gamed. The paper asks for three properties at once, scalability, faithfulness, and robustness, and its position is that nobody currently gets all three.
+</p>
+
+<h2>Asking the agent to check itself</h2>
+<p>
+The cheapest thing to reach for is self-review. The evidence there is more specific than a flat no.
+</p>
+<p>
+<a href="https://arxiv.org/abs/2606.02866">When Helping Hurts and How to Fix It</a> (June 2026) runs multi-agent debate across three benchmarks, four model families, and more than 6,000 task-condition pairs. Its domain is data cleaning rather than code, so treat the transfer as an argument and not as evidence. The mechanism is what I would expect to carry over. Debate cost all four models something on generation, between 1.6 and 15.5 percentage points, through what the authors call critique-induced confusion: the critic invents feedback and the generator accepts it at face value. The same setup improved error <i>detection</i>.
+</p>
+<p>
+I find that split more useful than either half of it. A critic sharing the generator's context earns its keep while it is only allowed to point at things, and starts costing you the moment it can edit.
+</p>
+<p>
+<a href="https://arxiv.org/abs/2607.16345">AEVAL</a> (July 2026) comes at the same problem from the harness side and names something easy to miss unless you go looking: the agent quietly repairs its own run partway through, then grades the repaired output as a pass. Their answer is a hard wall between whatever executes and whatever scores.
+</p>
+<p>
+Both papers point the same direction. Share the context, the model, or the tools, and the validator inherits precisely the blind spots that made validation necessary.
+</p>
+
+<h2>Where the tooling is going</h2>
+<p>
+Several systems shipped in 2026 with the same instinct: get the validator away from the generator.
+</p>
+
+<h3>Cross-model critics</h3>
+<p>
+GitHub's <a href="https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-combines-model-families-for-a-second-opinion/">Copilot CLI second opinion</a> reviews the primary agent's work using a model from a different family, so coding with Claude gets you a GPT reviewer and the other way around. GitHub reports that pairing Claude Sonnet with the reviewer closes 74.7% of the gap between Sonnet on its own and the considerably more expensive Opus on hard multi-file tasks.
+</p>
+<p>
+The diversity is doing as much work here as the separation. Models within a family tend to fail in the same places, so a same-family reviewer agrees with the generator exactly where you needed someone to object.
+</p>
+
+<h3>Completion contracts</h3>
+<p>
+Instead of trusting a declaration of success, some systems settle what counts as done before the agent starts.
+</p>
+<ul>
+<li><a href="https://github.com/xryv/DoneSpec">DoneSpec</a> swaps the self-report for a <code>done.json</code> contract of deterministic <code>must_pass</code> and <code>must_not</code> checks over file existence, command exit codes, regex matches, and HTTP health, with no LLM anywhere in the loop and an exit code at the end of it.</li>
+<li><a href="https://www.startuphub.ai/ai-news/artificial-intelligence/2026/dotta-on-defining-done-for-ai-agents-and-paperclip-s-liveness-model">Paperclip</a> lays out six levels of completion, from produced through author-done, spec-done, accepted, and accountable, up to operationally proven. Its observation is that agents stop at author-done and report it as accountable. Separate watchdog agents hold the primary agent to the higher bar.</li>
+<li><a href="https://arxiv.org/abs/2603.15691">VibeContract</a> (March 2026) breaks natural-language intent into a task sequence with per-task contracts covering expected inputs, outputs, constraints, and behavioral properties, then uses them while the code is being written rather than afterward.</li>
+</ul>
+
+<h3>Execution-grounded checking</h3>
+<p>
+The checks that survive contact with a real agent are the ones anchored to something observable.
+</p>
+<ul>
+<li><a href="https://ironbee.medium.com/what-a-verification-loop-adds-to-a-coding-agent-a-first-look-5049017e636e">IronBee</a> opens the application in a browser and exercises each change against the running app, reading the DOM, the accessibility tree, and the console, and only marks a fix done once it re-validates. A cheap model with that loop attached gets close to frontier quality on their tasks.</li>
+<li><a href="https://neeloppher.hashnode.dev/agentliar-detector">AgentLiar Detector</a> runs four independent checks over file state, tests, scope, and an LLM judge, then combines them into a weighted confidence score. It is packaged as a CLI, a GitHub Action, and an HTTP API.</li>
+<li>Claude Code's <a href="https://github.com/anthropics/claude-code/blob/main/plugins/code-review/commands/code-review.md">code-review plugin</a> puts four independent agents on the same diff in parallel and aggregates their findings with severity rationale. The <a href="https://code.claude.com/docs/en/claude-security">security plugin</a> adds a second stage, where an independent reviewer re-checks every finding from the vulnerability-hunting agents before any of it reaches you.</li>
+</ul>
+
+<h3>Process-level evaluation</h3>
+<p>
+<a href="https://arxiv.org/abs/2605.20251">ProcCtrlBench</a> (May 2026) argues that scoring only the final output hides real differences in how agents got there. An agent can land a correct patch while being impossible to follow, impossible to interrupt, or vague about when it is handing authority back. The benchmark defines 11 defect types across four categories and measures control preservation, meaning whether the run stayed interpretable, interruptible, correctable, and reversible.
+</p>
+
+<h2>What I take from all of this</h2>
+<ol>
+<li>Keep the validator independent. Shared context, shared model, or shared tools gets you shared blind spots, which defeats the purpose of having a second opinion.</li>
+<li>Check against intent rather than output. Compiling and passing the tests that already exist is the floor. The question is whether the thing that was asked for actually happened.</li>
+<li>Ground the checks in execution. An LLM judge carries the same hallucination risk you brought it in to catch. Prefer things you can watch: the file exists, the endpoint returns what it should, the page renders.</li>
+<li>Report claim by claim. A single pass or fail is too coarse to act on, and functional correctness, spec adherence, behavioral soundness, and scope alignment all fail independently. Collapsing them throws away the diagnosis.</li>
+<li>Expect to keep revising the validator. Better generators find better ways to satisfy a check while missing its point, so one that works today is not finished.</li>
+</ol>
+
+<h2>What I have been trying</h2>
+<p>
+I have been working on this from roughly that direction, under the working name functional task alignment. The question I keep circling is a narrow one. Given a task specification and whatever an agent did in response, can you check the specification's claims one at a time, without asking the agent how it went and without leaning on whichever tests happened to already be there?
+</p>
+<p>
+This is exploratory. It is not something anyone can pick up and run today. I am writing it down because the five points above are what pushed me toward this shape instead of something simpler. The self-review results are why claims come from the specification rather than from the agent's own account. Independence is why the checking sits in its own process. Since an LLM judge inherits the failure it is meant to catch, the checks have to watch behavior instead of reading structure. And a single verdict turned out to be almost useless in practice, so results stay separated by claim.
+</p>
+<p>
+Co-evolution is the point I have the least good answer for, and I suspect that is not just me.
+</p>
+<p>
+What I am reasonably confident about is the shape of the problem. Agents are picking up longer-horizon, more autonomous work, so a silent misalignment compounds quietly for a while instead of announcing itself as an error. That seems worth more attention than it is getting.
+</p>
+
+<p style="font-weight: 200">
+Sources above were collected between March and August 2026 from arXiv, engineering blogs, and open-source releases.
+</p>
+
+<hr>
+</post>

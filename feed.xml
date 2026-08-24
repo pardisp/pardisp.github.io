@@ -7,6 +7,13 @@
     <description>Notes on program analysis, deep learning for code, AI coding agents, and software security.</description>
     <language>en-us</language>
     <item>
+      <title>The Validation Gap</title>
+      <link>https://pardisp.github.io/blog/post_10.html</link>
+      <guid isPermaLink="true">https://pardisp.github.io/blog/post_10.html</guid>
+      <description>The code these agents write keeps getting better. Figuring out whether any of it did what you asked has not kept pace. When "done" is just a claim Coding agents are extremely good at producing plausible output. They write a confident summary of what they did, mark the task complete, and move on.…</description>
+      <pubDate>Sat, 01 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
       <title>What I Keep Writing in Reviews</title>
       <link>https://pardisp.github.io/blog/post_9.html</link>
       <guid isPermaLink="true">https://pardisp.github.io/blog/post_9.html</guid>
@@ -39,14 +46,7 @@
       <link>https://pardisp.github.io/blog/post_4.html</link>
       <guid isPermaLink="true">https://pardisp.github.io/blog/post_4.html</guid>
       <description>Labeled data is typically scarce for code-understanding tasks, both for training and evaluation purposes. In this post, I share a number of datasets that ML/SE researchers have collected and (kindly) shared. I will keep this post up-to-date as I find new datasets. Please email me if some dataset is…</description>
-      <pubDate>Wed, 01 Dec 2021 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>Perceptron, MLP, and Backpropagation</title>
-      <link>https://pardisp.github.io/blog/post_3.html</link>
-      <guid isPermaLink="true">https://pardisp.github.io/blog/post_3.html</guid>
-      <description>Perceptron Perceptron is a small unit in neural networks. It takes n inputs, computes a weighted sum of them, and applies a step function or one of its variants on the weighted sum. The goal of training is to find weights that minimize the prediction error. We are going to create a simple…</description>
-      <pubDate>Sun, 10 Oct 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 01 Aug 2026 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Hardening C/C++ Code with Clang Sanitizers</title>
